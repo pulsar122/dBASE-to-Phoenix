@@ -151,7 +151,7 @@ WORD handle_import(WORD msg,WORD button,DIALOG_INFO *inf)
     case SG_UNDO:																/* Undo-Taste betÑtigt			*/
 			return SG_CLOSE;
 		case SG_HELP:																/* Help-Taste betÑtigt.			*/
- 			CallOnlineHelp("Import");
+ 			CallOnlineHelp(HoleText(ANLEITUNGS_TEXTE,HELP_004,NULL));
  		break;
 		case SG_END:
 			switch(button)
@@ -331,7 +331,7 @@ VOID init_main_dbase(OBJECT *tree)
 	slider_dbase=(BYTE *)malloc(dbase_zeiger->fields*SLIDER_LEN_DBASE);
 	if(slider_dbase==NULL)
 	{
-		Alert(ALERT_NORM,1,"[3][Keine Speicher mehr frei.][[Mist]");
+		Note(ALERT_NORM,1,KEIN_SPEICHER);
 		return;
 	}
 	H=slider_dbase;
@@ -460,7 +460,7 @@ VOID init_main_phoenix(OBJECT *tree,WORD table)
 	slider_phoenix=(BYTE *)malloc(len);
 	if(slider_phoenix==NULL)
 	{
-		Alert(ALERT_NORM,1,"[3][Keine Speicher mehr frei.][[Mist]");
+		Note(ALERT_NORM,1,KEIN_SPEICHER);
 		return;
 	}
 	H=slider_phoenix;
@@ -611,7 +611,7 @@ VOID init_main_import(OBJECT *tree)
 	slider_import=(BYTE *)malloc(import_list.Anzahl*SLIDER_LEN_IMPORT);
 	if(slider_import==NULL)
 	{
-		Alert(ALERT_NORM,1,"[3][Keine Speicher mehr frei.][[Mist]");
+		Note(ALERT_NORM,1,KEIN_SPEICHER);
 		return;
 	}
 	H=slider_import;
@@ -840,7 +840,7 @@ WORD import(VOID)
 	{
 		if(import_list.list[i].ph_tabelle==-1 || import_list.list[i].db_col==-1)
 		{
-			Alert(ALERT_NORM,1,"[1][UnvollstÑndige Zuweisung][[Mist]");
+			Note(ALERT_NORM,1,UNVOLLSTAENDIG);
 			return FALSE;
 		}
 		if(ZStr[import_list.list[i].ph_tabelle]==0)
@@ -859,7 +859,7 @@ WORD import(VOID)
 	Record=(BYTE *)malloc(Size);
 	if(Record==NULL)
 	{
-		Alert(ALERT_NORM,1,"[3][Keine Speicher mehr frei.][[Mist]");
+		Note(ALERT_NORM,1,KEIN_SPEICHER);
 		return TRUE;
 	}
 	ShowRotor();
@@ -873,7 +873,7 @@ WORD import(VOID)
 				if(!db_fillnull(phoenix_zeiger->Base,table[k]+20,Record))
 				{
 					EndRotor();
-					Alert(ALERT_NORM,1,"[3][Fehler beim Null setzen des Buffer.][[Mist]");
+					Note(ALERT_NORM,1,FEHLER_NULL_SETZEN);
 					free(Record);
 					return TRUE;
 				}
@@ -887,7 +887,7 @@ WORD import(VOID)
 								Record,ZStr))
 						{
 							EndRotor();
-							Alert(ALERT_NORM,1,"[3][Fehler beim Feld einfÅgen.][[Mist]");
+							Note(ALERT_NORM,1,FEHLER_EINFUEGEN_FELD);
 							free(Record);
 							return TRUE;
 						}

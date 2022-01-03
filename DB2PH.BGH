@@ -1,0 +1,32 @@
+#BGH 000 000 000
+
+ BubbleGEM Help-File by RSM2OUT v1.95 fÅr ResourceMaster ab v2.06 by ARDISOFT
+
+#Dial 004 
+# 002 Phoenix Felder
+# 004 Importiert die dBASE-DatensÑtze in die Phoenix-Datenbank.
+# 012 Tabellen auswahl
+# 013 dBASE Felder
+# 019 Verbindungsbox
+# 024 Beendet den Dialog ohne die DatensÑtze zu importieren.
+# 025 Alle Felder zum verbinden.
+# 026 Alle Felder aus der Verbindung lîsen.
+# 029 Datentyp, Phoenix
+# 030 LÑnge des des Datentyp, Phoenix
+# 031 Datentyp, dBASE
+# 032 LÑnge des Datentyp, dBASE
+# 033 Alle Felder zum verbinden.
+# 034 Alle Felder aus der Verbindung lîsen.
+# 038 Datentyp, Phoenix
+# 039 LÑnge des des Datentyp, Phoenix
+# 040 Datentyp, dBASE
+# 041 LÑnge des Datentyp, dBASE
+# 042 Das selektierte Feld zum verbinden.
+# 043 Selektiertes Feld aus der Verindung lîsen.
+# 044 Das selektierte Feld zum verbinden.
+# 045 Selektiertes Feld aus der Verindung lîsen.
+#Dial 005 
+# 003 Benutzername eingeben
+# 004 Verdeckte Passwort eingabe
+# 005 Eingabe bestÑtigen
+# 006 Eingabe abbrechen

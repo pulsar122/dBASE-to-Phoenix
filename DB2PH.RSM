@@ -1,8 +1,10 @@
-ResourceMaster v3.1
-#C 12@0@0@0@
-#N 99@0@AZAazA___  _@AZAaza090___  _@@_@
+ResourceMaster v3.2 ž
+#C 15@12@0@0@
+#N 99@0@AZAazA___  _@AZAazA090___  _@@_@
+#FoC-Header@rsm2out@C-Header@h@@@[C-Header@0@
+#FoBGH@rsm2out@BGH@bgh@@@[BubbleGEM HELP-File@0@
 #R 0@0@2@1@2@1@
-#M 00010@1397179725@
+#M 20110@1397179725@14129@
 #T 0@1@MENU@@39@@
 #O 9@28@MPROGRAMMINFO@@
 #O 18@28@MOEFFNEPH@@
@@ -32,7 +34,7 @@ ResourceMaster v3.1
 #O 2@26@COK@@
 #O 7@21@CDATUM@@
 #T 4@2@MAIN@@46@@
-#O 2@20@MPH@@
+#O 2@20@MPH@Phoenix Felder@
 #O 3@27@MPHUP@@
 #O 4@26@MDOIMPORT@Importiert die dBASE-Datens„tze in die Phoenix-Datenbank.@
 #O 5@20@MPHVSLIDERBOX@@
@@ -42,40 +44,40 @@ ResourceMaster v3.1
 #O 9@27@MPHLEFT@@
 #O 10@20@MPHHSLIDERBOX@@
 #O 11@20@MPHHSLIDER@@
-#O 12@22@MPHTABELLEN@@
-#O 13@20@MDB@@
+#O 12@22@MPHTABELLEN@Tabellen auswahl@
+#O 13@20@MDB@dBASE Felder@
 #O 14@27@MDBUP@@
 #O 15@20@MDBSLIDERBOX@@
 #O 16@20@MDBSLIDER@@
 #O 17@27@MDBDOWN@@
-#O 19@20@MIM@@
+#O 19@20@MIM@Verbindungsbox@
 #O 20@27@MIMUP@@
 #O 21@20@MIMSLIDERBOX@@
 #O 22@20@MIMSLIDER@@
 #O 23@27@MIMDOWN@@
-#O 24@26@MABBRUCH@Beendet den Dialog ohne die Dates„tze zu importieren.@
-#O 25@26@MPH_IMPORT_ALLE@@
-#O 26@26@MIMPORT_PH_ALLE@@
-#O 29@28@MPHTYP@@
-#O 30@28@MPHLAENGE@@
-#O 31@28@MDBTYP@@
-#O 32@28@MDBLAENGE@@
-#O 33@26@MDB_IMPORT_ALLE@@
-#O 34@26@MIMPORT_DB_ALLE@@
+#O 24@26@MABBRUCH@Beendet den Dialog ohne die Datens„tze zu importieren.@
+#O 25@26@MPH_IMPORT_ALLE@Alle Felder zum verbinden.@
+#O 26@26@MIMPORT_PH_ALLE@Alle Felder aus der Verbindung l”sen.@
+#O 29@28@MPHTYP@Datentyp, Phoenix@
+#O 30@28@MPHLAENGE@L„nge des des Datentyp, Phoenix@
+#O 31@28@MDBTYP@Datentyp, dBASE@
+#O 32@28@MDBLAENGE@L„nge des Datentyp, dBASE@
+#O 33@26@MDB_IMPORT_ALLE@Alle Felder zum verbinden.@
+#O 34@26@MIMPORT_DB_ALLE@Alle Felder aus der Verbindung l”sen.@
 #O 37@25@MIFELDERBOX@@
-#O 38@28@MPHITYP@@
-#O 39@28@MPHILAENGE@@
-#O 40@28@MDBITYP@@
-#O 41@28@MDBILAENGE@@
-#O 42@26@MDB_IMPORT@@
-#O 43@26@MIMPORT_DB@@
-#O 44@26@MPH_IMPORT@@
-#O 45@26@MIMPORT_PH@@
+#O 38@28@MPHITYP@Datentyp, Phoenix@
+#O 39@28@MPHILAENGE@L„nge des des Datentyp, Phoenix@
+#O 40@28@MDBITYP@Datentyp, dBASE@
+#O 41@28@MDBILAENGE@L„nge des Datentyp, dBASE@
+#O 42@26@MDB_IMPORT@Das selektierte Feld zum verbinden.@
+#O 43@26@MIMPORT_DB@Selektiertes Feld aus der Verindung l”sen.@
+#O 44@26@MPH_IMPORT@Das selektierte Feld zum verbinden.@
+#O 45@26@MIMPORT_PH@Selektiertes Feld aus der Verindung l”sen.@
 #T 5@2@LOGIN@@7@@
-#O 3@29@LBENUTZER@@
-#O 4@29@LPASSWORT@@
-#O 5@26@LOK@@
-#O 6@26@LABBRUCH@@
+#O 3@29@LBENUTZER@Benutzername eingeben@
+#O 4@29@LPASSWORT@Verdeckte Passwort eingabe@
+#O 5@26@LOK@Eingabe best„tigen@
+#O 6@26@LABBRUCH@Eingabe abbrechen@
 #T 6@2@DBASESTRUKTUR@@20@@
 #O 2@28@DBLETZEAENDER@@
 #O 4@28@DBASETYP@@
@@ -120,4 +122,66 @@ ResourceMaster v3.1
 #O 7@29@PS_RANDLEN@@
 #T 11@2@PRN_ICON@@4@@
 #O 1@31@WD_01@@
-#c 18681@
+#T 12@2@TEXTE@@47@@
+#O 1@28@TEXT_000@@
+#O 2@28@TEXT_001@@
+#O 3@28@TEXT_002@@
+#O 4@28@TEXT_003@@
+#O 5@28@TEXT_004@@
+#O 6@28@TEXT_005@@
+#O 7@28@TEXT_006@@
+#O 8@28@TEXT_007@@
+#O 9@28@TEXT_008@@
+#O 10@28@TEXT_009@@
+#O 11@28@TEXT_010@@
+#O 12@28@TEXT_011@@
+#O 13@28@TEXT_012@@
+#O 14@28@TEXT_013@@
+#O 15@28@TEXT_014@@
+#O 16@28@TEXT_015@@
+#O 17@28@TEXT_016@@
+#O 18@28@TEXT_017@@
+#O 19@28@TEXT_018@@
+#O 20@28@TEXT_019@@
+#O 21@28@TEXT_027@@
+#O 22@28@TEXT_020@@
+#O 23@28@TEXT_021@@
+#O 24@28@TEXT_022@@
+#O 25@28@TEXT_023@@
+#O 26@28@TEXT_024@@
+#O 27@28@TEXT_025@@
+#O 42@28@TEXT_046@@
+#O 43@28@TEXT_026@@
+#O 44@28@TEXT_028@@
+#O 45@28@TEXT_029@@
+#O 46@28@TEXT_030@@
+#T 13@2@PHOENIX_BASE@@68@@
+#O 1@28@ERROR_00@@
+#O 41@28@ERROR_40@@
+#O 42@28@TEXT_01@@
+#O 43@28@TEXT_02@@
+#O 44@28@MONAT_KURZ_01@@
+#O 55@28@MONAT_KURZ_12@@
+#O 56@28@MONAT_LANG_01@@
+#O 67@28@MONAT_LANG_12@@
+#T 14@2@ANLEITUNGS_TEXTE@@10@@
+#O 3@28@HELP_000@@
+#O 4@28@HELP_001@@
+#O 5@28@HELP_002@@
+#O 6@28@HELP_003@@
+#O 7@28@HELP_004@@
+#O 8@28@HELP_005@@
+#O 9@28@HELP_006@@
+#S 0@4@DBASE_LESE_FEHLER@@
+#S 1@4@DBASE_FORMAT@@
+#S 2@4@KEIN_SPEICHER@@
+#S 3@4@DBASE_DATEI_VORHANDEN@@
+#S 4@4@DATEI_ERZEUGEN@@
+#S 5@4@KEYTAB_NICHT_DA@@
+#S 6@4@DEFEKTE_INF@@
+#S 7@4@PFAD_FEHLER@@
+#S 8@4@DATEINAME_FEHLER@@
+#S 9@4@UNVOLLSTAENDIG@@
+#S 10@4@FEHLER_NULL_SETZEN@@
+#S 11@4@FEHLER_EINFUEGEN_FELD@@
+#c 27974@

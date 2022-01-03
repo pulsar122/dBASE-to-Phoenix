@@ -6,8 +6,9 @@
 #include <phoenix.h>
 #include <string.h>
 #include <sys_gem2.h>
+#include "db2ph.h"
 #include "ph_base.h"
-
+#include "rsc.h"
 /*--------------------------------------------------------------------------*/
 /* EXTERNE VARIABLE																													*/
 
@@ -26,18 +27,11 @@
 /*--------------------------------------------------------------------------*/
 /* LOCALE VARIABLES																													*/
 
-LOCAL CHAR *short_month [12] = 
-{ 
-	"Jan", "Feb", "Mar", "Apr", "Mai", "Jun", 
-	"Jul", "Aug", "Sep", "Okt", "Nov", "Dez" 
-};
+LOCAL CHAR short_month [12][4];
+LOCAL CHAR long_month [12][20];
+LOCAL CHAR *s_month[12];
+LOCAL CHAR *l_month[12];
 
-LOCAL CHAR *long_month [12] = 
-{ 
-	"Januar", "Februar", "Marz", "April", "Mai", "Juni", "Juli", 
-	"August", "September", "Oktober", "November", "Dezember" 
-};
- 
 /*--------------------------------------------------------------------------*/
 /* ™ffnet eine Phoenixdatenbank																							*/
 /* d		: Zeiger auf eine Struktur die der Infos zu Datenbank abgelegt			*/
@@ -62,7 +56,7 @@ WORD phoenix_open(PhoenixStruct *d,BYTE *path,BYTE *User,BYTE *Password)
 	s=strrchr(path,'\\');
 	if(s==NULL)
 	{
-		Alert(ALERT_NORM,1,"[3][Path angabe nicht korrekt.][[Mist]");
+		Note(ALERT_NORM,1,PFAD_FEHLER);
 		return FALSE;
 	}
 	strcpy(Name,s+1);												/* Dateiname ermitteln						*/
@@ -70,7 +64,7 @@ WORD phoenix_open(PhoenixStruct *d,BYTE *path,BYTE *User,BYTE *Password)
 	s=strrchr(Name,'.');
 	if(s==NULL)
 	{
-		Alert(ALERT_NORM,1,"[3][Datei angabe nicht korrekt.][[Mist]");
+		Note(ALERT_NORM,1,DATEINAME_FEHLER);
 		return FALSE;
 	}
 	*s='\0';																	/* Suffix abscheinden							*/
@@ -140,134 +134,17 @@ WORD status_phoenix(LPBASE *base)
 	error=db_status(base);
 	if(error==SUCCESS)
 		return 1;
-	strcpy(ZStr,"[3][Phoenix/BASE Error|");
-	switch(error)
-	{
-		case DB_NOMEMORY:
-			strcat(ZStr,"Zuwenig Speicher, um Operatiom auszufhren.");
-		break;
-		case DB_TNOCREATE:
-			strcat(ZStr,"Indexdatei konnte nicht erstellt werden.");
-		break;
-		case DB_TNOOPEN:
-			strcat(ZStr,"Indexdatei konnte nicht ge”ffnet werden.");
-		break;
-		case DB_TNOCLOSE:
-			strcat(ZStr,"Indexdatei konnte nicht geschlossen werden.");
-		break;
-		case DB_TRDPAGE:
-			strcat(ZStr,"Schlsselseite konnte nicht gelesen werden.");
-		break;
-		case DB_TWRPAGE:
-			strcat(ZStr,"Schlsselseite konnte nicht geschrieben werden.");
-		break;
-		case DB_TNOKEY:
-			strcat(ZStr,"Schlsselseite konnte nicht gefunden werden");
-		break;
-		case DB_DNOCREATE:
-			strcat(ZStr,"Datendatei konnte nicht angelegt werden");
-		break;
-		case DB_DNOOPEN:
-			strcat(ZStr,"Datendatei konnte nicht ge”ffnet werden");
-		break;
-		case DB_DNOCLOSE:
-			strcat(ZStr,"Datendatei konnte nicht geschlossen werden");
-		break;
-		case DB_DNOTCLOSED:
-			strcat(ZStr,"Datendatei wurde nicht ordnungsgem„á geschlossen");
-		break;
-		case DB_DVERSION:
-			strcat(ZStr,"Versionsnummer nicht kompatibel");
-		break;
-		case DB_DINSERT:
-			strcat(ZStr,"Datensatz konnte nicht eingefgt werden");
-		break;
-		case DB_DDELETE:
-			strcat(ZStr,"Datensatz konnte nicht gel”scht werden");
-		break;
-		case DB_DUDELETE:
-			strcat(ZStr,"Datensatz konnte nicht zurckgeholt werden");
-		break;
-		case DB_DUPDATE:
-			strcat(ZStr,"Datensatz konnte nicht ge„ndert werden");
-		break;
-		case DB_DREAD:
-			strcat(ZStr,"Daten konnten nicht gelesen werden");
-		break;
-		case DB_DWRITE:
-			strcat(ZStr,"Daten konnten nicht geschrieben werden");
-		break;
-		case DB_DNOLOCK:
-			strcat(ZStr,"Datenbank konnte nicht gesperrt werden");
-		break;
-		case DB_DNOUNLOCK:
-			strcat(ZStr,"Datenbank konnte nicht freigegeben werden");
-		break;
-		case DB_CDELETED:
-			strcat(ZStr,"Zugriff auf einen gel”schten Datensatz");
-		break;
-		case DB_CNOTABLE:
-			strcat(ZStr,"Tabelle existiert nicht");
-		break;
-		case DB_CNOCOLUMN:
-			strcat(ZStr,"Spalte existiert nicht");
-		break;
-		case DB_CNOINDEX:
-			strcat(ZStr,"Index existiert nicht");
-		break;
-		case DB_CNULLKEY:
-			strcat(ZStr,"Schlsseleintrag leer");
-		break;
-		case DB_CNOTUNIQUE:
-			strcat(ZStr,"Schlssel nicht eindeutig");
-		break;
-		case DB_CNOACCESS:
-			strcat(ZStr,"Zugriff fr Benutzer nicht erlaubt");
-		break;
-		case DB_CRECLOCKED:
-			strcat(ZStr,"Datensatz bereits durch einen anderen Benutzer|gesperrt");
-		break;
-		case DB_CLOCK_ERR:
-			strcat(ZStr,"Datensatz konnte nicht gesperrt werden");
-		break;
-		case DB_CFREE_ERR:
-			strcat(ZStr,"Datensatz konnte nicht freigegeben werden");
-		break;
-		case DB_CPASSWORD:
-			strcat(ZStr,"Passwort falsch");
-		break;
-		case DB_CCREATEDD:
-			strcat(ZStr,"Fehler beim Anlegen des Data-Dictionaries");
-		break;
-		case DB_CREADDD:
-			strcat(ZStr,"Fehler beim Lesen des Data-Dictionaries");
-		break;
-		case DB_CINVALID:
-			strcat(ZStr,"Ungltige Datensatzadresse");
-		break;
-		case DB_CNULLCOL:
-			strcat(ZStr,"Spalte hat den Wert NULL");
-		break;
-		case DB_CNOINSERT:
-			strcat(ZStr,"Einfgen verst”át gegen Integrit„tsbedingung");
-		break;
-		case DB_CNODELETE:
-			strcat(ZStr,"L”schen verst”át gegen Integrit„tsbedingung");
-		break;
-		case DB_CNOUPDATE:
-			strcat(ZStr,"Žndern verst”át gegen Integrit„tsbedingung");
-		break;
-		case DB_CUPDATED:
-			strcat(ZStr,"Datensatz inzwischen von anderem Benutzer ge„ndert");
-		break;
-		case DB_CDELETEDUPDATE:
-			strcat(ZStr,"Datensatz inzwischen von anderem Benutzer gel”scht");
-		break;
-		default:
-			strcat(ZStr,"Unbekannter Fehler");
-		break;
-	}
-	strcat(ZStr," ][[Abbruch]");
+	strcpy(ZStr,"[3][");
+	strcat(ZStr,HoleText(PHOENIX_BASE,TEXT_01,NULL));
+	strcat(ZStr,"|");
+	if(error >= DB_NOMEMORY && error <= DB_CDELETEDUPDATE)
+		strcat(ZStr,HoleText(PHOENIX_BASE,ERROR_00 + (error - DB_NOMEMORY),NULL));
+	else
+		strcat(ZStr,HoleText(PHOENIX_BASE,ERROR_40,NULL));
+	strcat(ZStr,"][");
+	strcat(ZStr,HoleText(PHOENIX_BASE,TEXT_02,NULL));
+	strcat(ZStr,"]");
+	ShowArrow();
 	Alert(ALERT_NORM,1,ZStr);
 	return 0;
 }
@@ -277,6 +154,20 @@ WORD status_phoenix(LPBASE *base)
 
 VOID init_phoenix(VOID)
 {
-	init_conv (short_month, long_month, '.', ','); 
+	WORD i;
+	
+	
+	for(i=0; i<12; i++)
+	{
+		strcpy(&short_month[i][0],HoleText(PHOENIX_BASE,MONAT_KURZ_01 + i,NULL));
+		s_month[i]=&short_month[i][0];
+	}
+	for(i=0; i<12; i++)
+	{
+		strcpy(&long_month[i][0],HoleText(PHOENIX_BASE,MONAT_LANG_01 + i,NULL));
+		l_month[i]=&long_month[i][0];
+	}
+		
+	init_conv (s_month, l_month, '.', ','); 
 	db_init(0);
 }

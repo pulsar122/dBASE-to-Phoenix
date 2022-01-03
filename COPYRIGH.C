@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys_gem2.h>
+#include "db2ph.h"
 #include "global.h"
 #include "rsc.h"
 
@@ -34,7 +35,7 @@ LOCAL WORD handle_copyright(WORD msg,WORD button,DIALOG_INFO *inf);
 
 VOID zeige_copyright(VOID)
 {
-	WindowDialog('COPY',-1,-1,"| Programminfo ","",FALSE,FALSE,copy_tree,NULL,0,NULL,handle_copyright);
+	WindowDialog('COPY',-1,-1,HoleText(TEXTE,TEXT_000,NULL),"",FALSE,FALSE,copy_tree,NULL,0,NULL,handle_copyright);
 }
 
 /*----------------------------------------------------------------------------*/
@@ -47,7 +48,7 @@ WORD handle_copyright(WORD msg,WORD button,DIALOG_INFO *inf)
     case SG_UNDO:																/* Undo-Taste bet„tigt				*/
 			return SG_CLOSE;
 		case SG_HELP:																/* Help-Taste bet„tigt.				*/
- 			CallOnlineHelp("Programminfo...");
+ 			CallOnlineHelp(HoleText(ANLEITUNGS_TEXTE,HELP_000,NULL));
  		break;
  		case SG_START:
  		break;

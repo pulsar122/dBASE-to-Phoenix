@@ -40,10 +40,10 @@ LOCAL WORD handle_keytab(WORD msg,WORD button,DIALOG_INFO *inf);
 VOID import_keytab(VOID)
 {
 	if(GetCookie(KEYTAB_COOKIE,(LONG *)&keytab) && keytab->size>=KEYTAB_C)
-  		WindowDialog('KEYT',-1,-1,"Importfilter","",FALSE,FALSE,keytab_tree,NULL,0,NULL,handle_keytab);
+  		WindowDialog('KEYT',-1,-1,HoleText(TEXTE,TEXT_021,NULL),"",FALSE,FALSE,keytab_tree,NULL,0,NULL,handle_keytab);
   else
   {
-  	Alert(ALERT_NORM,1,"[3][Keytab ist nicht oder in der|falschen Version vorhanden][ [OK ]");
+  	Note(ALERT_NORM,1,KEYTAB_NICHT_DA);
   	keytab_id_import=-1;
   }
 }
@@ -61,7 +61,7 @@ WORD handle_keytab(WORD msg,WORD button,DIALOG_INFO *inf)
 	switch(msg)
 	{
 		case SG_HELP:													/* Help-Taste bet„tigt.						*/
- 			CallOnlineHelp("GEDCOM Import");
+ 			CallOnlineHelp("");
  		break;
  		case SG_START:
  			key_alt=keytab_id_import;

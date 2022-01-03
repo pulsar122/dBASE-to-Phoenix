@@ -28,6 +28,10 @@ OBJECT *phoenix_tree;
 OBJECT *keytab_tree;
 OBJECT *icon_tree;
 OBJECT *wdialog_tree;
+OBJECT *texte_tree;
+OBJECT *phoenix_base_tree;
+OBJECT *Anleitung_tree;
+OBJECT **alertmsg_tree;
 
 /*--------------------------------------------------------------------------*/
 /* DEFINES																																	*/
@@ -86,4 +90,54 @@ VOID init_rsc(VOID)
 	
 	wdialog_tree=RscAdr(R_TREE,PRN_SUB);
 	icon_tree=RscAdr(R_TREE,PRN_ICON);
+
+	texte_tree=RscAdr(R_TREE,TEXTE);
+
+	phoenix_base_tree=RscAdr(R_TREE,PHOENIX_BASE);
+
+	Anleitung_tree=RscAdr(R_TREE,ANLEITUNGS_TEXTE);
+
+	rsrc_gaddr(R_FRSTR,DBASE_LESE_FEHLER,&alertmsg_tree);
+}
+
+/*--------------------------------------------------------------------------*/
+/* Text aus der Resource-Datei holen																				*/
+/* Baum		: Nummer der Objektbaum, in welchem das Textfeld liegt						*/
+/* Nummer	: Nummer des Textobjekt																						*/
+/* String	: Adresse auf einen String in welchen der Text kopiert wird.			*/
+/* RÅckgabe: Adresse ab der sich der Text befindet													*/
+
+BYTE *HoleText(WORD Baum,WORD Nummer,BYTE *String)
+{
+	OBJECT *tree;
+
+	switch(Baum)
+	{
+		case TEXTE:
+			tree=texte_tree;
+		break;
+		case PHOENIX_BASE:
+			tree=phoenix_base_tree;
+		break;
+		case ANLEITUNGS_TEXTE:
+			tree=Anleitung_tree;
+		break;
+	}
+	if(String!=NULL)
+		strcpy(String, tree[Nummer].ob_spec.free_string);
+
+	return tree[Nummer].ob_spec.free_string;
+}
+
+/*--------------------------------------------------------------------------*/
+/* Zeigte eine Alertbox, als Text und Button kommt ein String aus der				*/
+/* Resource-Datei.																													*/
+/* priority	: 'PrioritÑt'																										*/
+/* def			: Nummer des Default-Konpfes																		*/
+/* index		: Nummer aus der Resoucre-Datei																	*/
+/* RÅckgabe	: Nummer des Buttons der betÑtigt wurde.												*/
+
+WORD Note(WORD priority,WORD def,WORD index)
+{
+	return Alert(priority,def,(BYTE *)alertmsg_tree[index]);
 }

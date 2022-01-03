@@ -81,18 +81,18 @@ typedef struct
 	FIELD field[MAX_FIELDS];										/* Felderliste								*/
 	WORD headersize;
 	UWORD recsize;															/* Grîûe eines Datensatz			*/
-	ULONG recs;																	/* Anzahl der DatensÑtze			*/
+	LONG recs;																	/* Anzahl der DatensÑtze			*/
 	BYTE Tag,Monat;															/* letzte énderung						*/
 	WORD Jahr;
 	WORD modi;																	/* Flag fÅr "geÑndert" 				*/
-	FILE *f;																		/* Dateihandle								*/
-	ULONG fpos;																	/* Datei-Zeiger								*/
+	WORD f;																			/* Dateihandle								*/
+	LONG fpos;																	/* Datei-Zeiger								*/
 	BYTE *buffer;																/* Zeiger auf Datensatzbuffer */
 }DBStruct;
 
 EXTERN WORD dBase_open(DBStruct *d,BYTE *file);
 EXTERN VOID dBase_close(DBStruct *d);
-EXTERN WORD dBase_move(DBStruct *d,ULONG pos);
+EXTERN WORD dBase_move(DBStruct *d,LONG pos);
 EXTERN WORD dBase_move_plus(DBStruct *d);
 EXTERN VOID dBase_read(DBStruct *d,BYTE *fname,BYTE *Wert);
 EXTERN VOID dBase_read_typ(DBStruct *d,BYTE *fname,BYTE *Wert);

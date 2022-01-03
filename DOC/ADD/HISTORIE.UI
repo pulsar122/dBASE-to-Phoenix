@@ -2,6 +2,23 @@
 !node Historie
 
 #----------------------------------------------------------------------------*/
+
+!subnode Version 0.07 vom 07.02.2000
+
+!begin_itemize !short
+	!item Alle Texte liegen jetzt in der Resource-Datei.
+!end_itemize
+
+#----------------------------------------------------------------------------*/
+!subnode Version 0.06 vom 07.02.2000
+
+!begin_itemize !short
+	!item Statusfenster beim Phoeniximport wurde nicht geschlossen.
+	      [Bernd M„dicke]
+	!item Interne Žnderungen der Dateifunktionen beim Zugriff auf dBASE-Dateien.
+!end_itemize
+
+#----------------------------------------------------------------------------*/
 !subnode Version 0.05 vom 05.02.2000
 
 !begin_itemize !short

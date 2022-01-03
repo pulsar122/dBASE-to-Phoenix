@@ -55,17 +55,18 @@ BYTE *slider_dbstruct;
 
 VOID open_dbase(VOID)
 {
-	BYTE Name[30],datei[300];
+	BYTE Name[30],datei[300], str[40];
 	WORD i;
 	
 	strcpy(Name,"Test");
-	i=FileSelect(Name,db_path,"*.DBF","dBASE Datenbank ”ffnen",datei);
+	HoleText(TEXTE,TEXT_001,str);
+	i=FileSelect(Name,db_path,"*.DBF",str,datei);
 	if(i)
 	{
 		dbase_zeiger=(DBStruct *)malloc(sizeof(DBStruct));
 		if(dbase_zeiger==NULL)
 		{
-			Alert(ALERT_NORM,1,"[3][Keine Speicher mehr frei.][[Mist]");
+			Note(ALERT_NORM,1,KEIN_SPEICHER);
 			return;
 		}
 		ShowBee();
@@ -105,7 +106,7 @@ WORD handle_dbase(WORD msg,WORD button,DIALOG_INFO *inf)
     case SG_UNDO:																/* Undo-Taste bet„tigt			*/
 			return SG_CLOSE;
 		case SG_HELP:																/* Help-Taste bet„tigt.			*/
- 			CallOnlineHelp("dBASE Struktur");
+ 			CallOnlineHelp(HoleText(ANLEITUNGS_TEXTE,HELP_001,NULL));
  		break;
 		case SG_END:
 			return SG_CLOSE;
@@ -164,19 +165,19 @@ VOID init_dbase_struktur(OBJECT *tree)
 			strcpy(ZStr,"dBASE V");
 		break;
 		case DBASEIII_MEMO:
-			strcpy(ZStr,"dBASE III mit Memfeld");
+			HoleText(TEXTE,TEXT_002,ZStr);
 		break;
 		case DBASEIV_MEMO:
-			strcpy(ZStr,"dBASE IV mit Memfeld");
+			HoleText(TEXTE,TEXT_003,ZStr);
 		break;
 		case DBASEIV_SQL:
-			strcpy(ZStr,"dBASE IV mit SQL-Tabelle");
+			HoleText(TEXTE,TEXT_004,ZStr);
 		break;
 		case FOXPRO_MEMO:
-			strcpy(ZStr,"FoxPro mit Memofeld");
+			HoleText(TEXTE,TEXT_005,ZStr);
 		break;
 		default:
-			strcpy(ZStr,"unbekannte Version");
+			HoleText(TEXTE,TEXT_006,ZStr);
 		break;
 	}
 	SetText(tree,DBASETYP,ZStr);
@@ -189,7 +190,7 @@ VOID init_dbase_struktur(OBJECT *tree)
 	slider_dbstruct=(BYTE *)malloc(dbase_zeiger->fields*SLIDER_LEN);
 	if(slider_dbstruct==NULL)
 	{
-		Alert(ALERT_NORM,1,"[3][Keine Speicher mehr frei.][[Mist]");
+		Note(ALERT_NORM,1,KEIN_SPEICHER);
 		return;
 	}
 	memset(slider_dbstruct,0,dbase_zeiger->fields*SLIDER_LEN);
@@ -227,31 +228,31 @@ VOID hole_typ(BYTE Typ,BYTE *Text)
 	switch(Typ)
 	{
 		case FIELD_ASCII:
-			strcpy(Text,"Zeichen");
+			HoleText(TEXTE,TEXT_007,Text);
 		break;
 		case FIELD_NUM:
-			strcpy(Text,"Numerisch");
+			HoleText(TEXTE,TEXT_008,Text);
 		break;
 		case FIELD_NUM2:
-			strcpy(Text,"Gleitpunkt");
+			HoleText(TEXTE,TEXT_009,Text);
 		break;
 		case FIELD_OBJEKT:
-			strcpy(Text,"Objekt");
+			HoleText(TEXTE,TEXT_010,Text);
 		break;
 		case FIELD_LOGIC:
-			strcpy(Text,"Logisch");
+			HoleText(TEXTE,TEXT_011,Text);
 		break;
 		case FIELD_DATE:
-			strcpy(Text,"Datum");
+			HoleText(TEXTE,TEXT_012,Text);
 		break;
 		case FIELD_MEMO:
-			strcpy(Text,"Memofeld");
+			HoleText(TEXTE,TEXT_013,Text);
 		break;
 		case FIELD_PICTURE:
-			strcpy(Text,"Bild");
+			HoleText(TEXTE,TEXT_014,Text);
 		break;
 		default:
-			strcpy(Text,"unbekannt");
+			HoleText(TEXTE,TEXT_015,Text);
 		break;
 	}
 }
@@ -266,16 +267,16 @@ VOID db_textbeschreibung_export(VOID)
 	FILE *fp;
 	
 	strcpy(Name,"*.*");
-	i=FileSelect(Name,db_path,"*.TXT\0","dBASE Struktur schreiben",datei);
+	i=FileSelect(Name,db_path,"*.TXT\0",HoleText(TEXTE,TEXT_016,NULL),datei);
 	if(!i)
 		return;
 	fp=fopen(datei,"wb+");
 	if(fp==NULL)
 	{
-		Alert(ALERT_NORM,1,"[3][Fehler beim erzeugen der Datei.][[Mist]");
+		Note(ALERT_NORM,1,DATEI_ERZEUGEN);
 		return;
 	}
-	strcpy(ZStr,"Typ                  : ");
+	HoleText(TEXTE,TEXT_026,ZStr);
 	switch((WORD)dbase_zeiger->typ)
 	{
 		case DBASEII:
@@ -291,30 +292,31 @@ VOID db_textbeschreibung_export(VOID)
 			strcat(ZStr,"dBASE V");
 		break;
 		case DBASEIII_MEMO:
-			strcat(ZStr,"dBASE III mit Memfeld");
+			strcat(ZStr,HoleText(TEXTE,TEXT_002,NULL));
 		break;
 		case DBASEIV_MEMO:
-			strcat(ZStr,"dBASE IV mit Memfeld");
+			strcat(ZStr,HoleText(TEXTE,TEXT_003,NULL));
 		break;
 		case DBASEIV_SQL:
-			strcat(ZStr,"dBASE IV mit SQL-Tabelle");
+			strcat(ZStr,HoleText(TEXTE,TEXT_004,NULL));
 		break;
 		case FOXPRO_MEMO:
-			strcat(ZStr,"FoxPro mit Memofeld");
+			strcat(ZStr,HoleText(TEXTE,TEXT_005,NULL));
 		break;
 		default:
-			strcat(ZStr,"unbekannte Version");
+			strcat(ZStr,HoleText(TEXTE,TEXT_006,NULL));
 		break;
 	}
 	strcat(ZStr,"\r\n");
 	fwrite(ZStr,1,strlen(ZStr),fp);
-	sprintf(ZStr,"letzte Žnderung      : %02d.%02d.%04d\r\n",(WORD)dbase_zeiger->Tag,(WORD)dbase_zeiger->Monat,(WORD)dbase_zeiger->Jahr);
+	sprintf(ZStr,"%s%02d.%02d.%04d\r\n",HoleText(TEXTE,TEXT_017,NULL),(WORD)dbase_zeiger->Tag,(WORD)dbase_zeiger->Monat,(WORD)dbase_zeiger->Jahr);
 	fwrite(ZStr,1,strlen(ZStr),fp);
-	sprintf(ZStr,"Datensatzgr”že       : %d\r\n",dbase_zeiger->recsize);
+	sprintf(ZStr,"%s%d\r\n",HoleText(TEXTE,TEXT_018,NULL),dbase_zeiger->recsize);
 	fwrite(ZStr,1,strlen(ZStr),fp);
-	sprintf(ZStr,"Anzahl der Datens„tze: %li\r\n\r\n",dbase_zeiger->recs);
+	sprintf(ZStr,"%s%li\r\n\r\n",HoleText(TEXTE,TEXT_019,NULL),dbase_zeiger->recs);
 	fwrite(ZStr,1,strlen(ZStr),fp);
-	strcpy(ZStr,"  Feldname      Feldtyp     L„nge   Dez\r\n");
+	strcpy(ZStr,HoleText(TEXTE,TEXT_027,NULL));
+	strcat(ZStr,"\r\n");
 	fwrite(ZStr,1,strlen(ZStr),fp);
 	strcpy(ZStr,"---------------------------------------\r\n");
 	fwrite(ZStr,1,strlen(ZStr),fp);
@@ -335,8 +337,6 @@ VOID db_textbeschreibung_export(VOID)
 	}
 	fclose(fp);
 }
-
-EXTERN VOID joerg(VOID);
 
 /*--------------------------------------------------------------------------*/
 /* Druckt die dBASE-Struktur																								*/
@@ -421,19 +421,24 @@ VOID db_textbeschreibung_drucken(VOID)
 VOID dbase_daten_anzeigen(VOID)
 {
 	BYTE *puffer;
-	ULONG i;
 	WORD offset;
+	WORD handle;
+	ULONG i;
 	
+	if((handle=GetHandle('DBDA'))!=-1)				/* Fenster schon vorhanden			*/
+	{
+		TopWindow(handle);											/* Dann nach vorne bringen			*/
+		return;
+	}
 	puffer=(BYTE *)malloc(dbase_zeiger->recsize+50);
 	if(puffer==NULL)
 	{
-		Alert(ALERT_NORM,1,"[3][Keine Speicher mehr frei.][[Mist]");
+		Note(ALERT_NORM,1,KEIN_SPEICHER);
 		return;
 	}
 	ShowRotor();	
-	OpenWindow('DBDA',"dBASE Tabelle","",WINDOW_FLAGS,NULL,Para.charw,TRUE,-1,-1,
+	OpenWindow('DBDA',HoleText(TEXTE,TEXT_020,NULL),"",WINDOW_FLAGS,NULL,Para.charw,TRUE,-1,-1,
 						 1L,1L,10,10,500,400,NULL,(RPROC)NULL,handle_dbase_daten);
-/*	OpenTextWindow('DBDA',"dBASE Tabelle","",NULL,10,10,60,40,NULL,handle_dbase_daten);*/
 	dBase_move(dbase_zeiger,1);
 	dbase_daten_zeile(dbase_zeiger,puffer);
 	BeginListUpdate('DBDA');
@@ -490,7 +495,7 @@ WORD handle_dbase_daten(WORD msg,WINDOW_INFO *inf)
     case SG_START:
     break;
 		case SG_HELP:																/* Help-Taste bet„tigt.				*/
- 			CallOnlineHelp("dBASE anzeigen");
+ 			CallOnlineHelp(HoleText(ANLEITUNGS_TEXTE,HELP_002,NULL));
  		break;
   	case SG_END:
     	return SG_CLOSE;
@@ -536,7 +541,9 @@ WORD handle_dbase_daten(WORD msg,WINDOW_INFO *inf)
       }
       return(SG_KEYCONT);
     case SG_QUIT:
+    	ShowBee();
     	DelCompleteList('DBDA');
+    	ShowArrow();
     break;
   }
   return(SG_CONT);
@@ -574,7 +581,7 @@ WORD open_dbase_kommando(BYTE *Datei)
 		dbase_zeiger=(DBStruct *)malloc(sizeof(DBStruct));
 		if(dbase_zeiger==NULL)
 		{
-			Alert(ALERT_NORM,1,"[3][Keine Speicher mehr frei.][[Mist]");
+			Note(ALERT_NORM,1,KEIN_SPEICHER);
 			return TRUE;
 		}
 		ShowBee();

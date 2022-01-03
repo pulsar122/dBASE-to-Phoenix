@@ -15,3 +15,5 @@ EXTERN OBJECT *icon_tree;
 EXTERN OBJECT *wdialog_tree;
 
 VOID init_rsc(VOID);
+BYTE *HoleText(WORD Baum,WORD Nummer,BYTE *String);
+WORD Note(WORD priority,WORD def,WORD index);

@@ -85,7 +85,7 @@ VOID init_programm(VOID)
 	init_naes();
 	init_rsc();														/* Resource init										*/
 	init_SysGem();
-	ShowMessage("Programmdaten initalisieren");
+	ShowMessage(HoleText(TEXTE,TEXT_028,NULL));
   db_path[0]=(BYTE)Dgetdrv()+'A';				/* Aktuelles Laufwerk in Pfad 			*/
   *(db_path+1) = ':';
 	Dgetpath(db_path+2,0);								/* Aktueller Dateipath							*/
@@ -97,7 +97,7 @@ VOID init_programm(VOID)
 		if(LoadConfig(home)==0L)						/* Konfigdatei laden								*/
 		{
 			ShowArrow();
-	  	Alert(ALERT_NORM,1,"[3][Falsche oder defekte INF-Datei.|Es werden die Default-Werte benutzt.][[OK]");
+	  	Note(ALERT_NORM,1,DEFEKTE_INF);
 		}
 	}
 /*	init_drucker();*/
@@ -161,7 +161,7 @@ WORD handle_menue(WORD item)
 	switch (item)
   {
   	case -1:														/* Help-Taste bet„tigt							*/
- 			CallOnlineHelp("Inhaltsverzeichnis");
+ 			CallOnlineHelp(HoleText(ANLEITUNGS_TEXTE,HELP_003,NULL));
   	break;
   	case MPROGRAMMINFO:									/* Copyrightbox darstellen					*/
 	 		zeige_copyright(); 
@@ -181,10 +181,10 @@ WORD handle_menue(WORD item)
   	case MENDE:													/* Programm beenden									*/
   		return SG_TERM;
   	case MPHSTRUKTUR:										/* Phoenixdatenbankstruktur anzeigen*/
-  		WindowDialog('PHST',-1,-1,"Phoenix Strukture","",FALSE,FALSE,phoenix_tree,phoenix_menu_tree,0,NULL,handle_phoenix);
+  		WindowDialog('PHST',-1,-1,HoleText(TEXTE,TEXT_029,NULL),"",FALSE,FALSE,phoenix_tree,phoenix_menu_tree,0,NULL,handle_phoenix);
   	break;
   	case MDBASESTRUCT:									/* dBASE Datenbankstruktur anzeigen */
-  		WindowDialog('DBST',-1,-1,"dBASE Strukture","",FALSE,FALSE,dbase_tree,dbase_menu_tree,0,NULL,handle_dbase);
+  		WindowDialog('DBST',-1,-1,HoleText(TEXTE,TEXT_030,NULL),"",FALSE,FALSE,dbase_tree,dbase_menu_tree,0,NULL,handle_dbase);
   	break;
   	case MDBASEDATEN:
   		dbase_daten_anzeigen();

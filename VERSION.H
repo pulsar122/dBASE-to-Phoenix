@@ -1,4 +1,4 @@
-#define VERSION "0.05"
+#define VERSION "0.07"
 
 /*----------------------
 

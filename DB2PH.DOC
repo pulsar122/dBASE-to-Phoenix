@@ -1,0 +1,20 @@
+05.02.2000	War Keytab nicht installiert strzte db2Ph ab (2 Bomben).
+						[Bernd M„dicke]
+						Bei der Ausgabe der Phoenixdatenfelder wird beim Typ 'Text'
+						bercksichtig, daž der Designer immer ein Byte mehr
+						resverviert. Somit wird bei der Anzeige eins abgezogen.
+						---> Version 0.05 auf die Heimatseite gelegt.
+07.02.2000	Beim direkten Import in eine Phoenixdatenbank wurde am Ende
+						das Statusfenster nicht geschlossen. [Bernd M„dicke]
+						Ist das Fenster der dBase-Daten schon vorhanden und wird
+						versucht es nochmal zu ”ffnen, dann	wird es getopt.
+						Die Datefunktionen der dBASE-Funktionen von der Library in
+						GEMDOS-Funktionen umgestellt. Da es mit einer Datenbank
+						Probleme gab, in dem ab dem Datensatz 1681 der fseek nicht
+						mehr korrekt arbeitete.
+						---> Version 0.06 auf die Heimatseite gelegt.
+21.02.2000	Begonnen alle Texte in die Resource- und BGH-Datei zulegen.
+26.02.2000	Bgonnen die Text aus der Resource-Datei ins Programm zu-
+						integrieren.
+01.03.2000	Alle Texte werden nun aus der Resource-Datei geladen.
+02.03.2000	---> Version 0.07 

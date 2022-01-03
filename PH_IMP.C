@@ -25,10 +25,13 @@
 
 BYTE ph_path[300];													/* Phoenix Path									*/
 PhoenixStruct *phoenix_zeiger;
-BYTE Datentypen[16][17]= {"Text","Zahl","Langzahl","Fliežkomma",
+BYTE Datentypen[16][30];
+
+/*= {"Text","Zahl","Langzahl","Fliežkomma",
 										"Fliežkomma/Text","Datum","Zeit","Datum+Zeit",
-										"Byte-Strom","Wort-Strom","Long-Strom","Garfik",
+										"Byte-Strom","Wort-Strom","Long-Strom","Grafik",
 										"externe Datei","Datensatzadresse","Blob"};
+*/
 BYTE ph_name[50],ph_passwort[50];
 
 /*--------------------------------------------------------------------------*/
@@ -62,10 +65,10 @@ VOID open_phoenix(VOID)
 	WORD i;
 	
 	strcpy(Name,"*.*");
-	i=FileSelect(Name,ph_path,"*.DAT\0*.IND\0","Phoenix Datenbank ”ffnen",datei);
+	i=FileSelect(Name,ph_path,"*.DAT\0*.IND\0",HoleText(TEXTE,TEXT_022,NULL),datei);
 	if(i)
 	{
-		xWindowDialog('PHLO',-1,-1,"Datenbank ”ffnen","",FALSE,TRUE,login_tree,NULL,-2,NULL,handle_login);
+		xWindowDialog('PHLO',-1,-1,HoleText(TEXTE,TEXT_023,NULL),"",FALSE,TRUE,login_tree,NULL,-2,NULL,handle_login);
    	if(ph_passwort[0]==255)
    		return;
 		phoenix_zeiger=(PhoenixStruct *)malloc(sizeof(PhoenixStruct));
@@ -96,7 +99,7 @@ WORD handle_login(WORD msg,WORD button,DIALOG_INFO *inf)
     	ph_passwort[0]=255;
 			return SG_CLOSE;
 		case SG_HELP:																/* Help-Taste bet„tigt			*/
- 			CallOnlineHelp("Phoenix ”ffnen...");
+ 			CallOnlineHelp(HoleText(ANLEITUNGS_TEXTE,HELP_005,NULL));
  		break;
 		case SG_END:
 			if(button==LOK)
@@ -194,7 +197,7 @@ WORD handle_phoenix(WORD msg,WORD button,DIALOG_INFO *inf)
     case SG_UNDO:																/* Undo-Taste bet„tigt			*/
 			return SG_CLOSE;
 		case SG_HELP:																/* Help-Taste bet„tigt.			*/
- 			CallOnlineHelp("Phoenix Struktur");
+ 			CallOnlineHelp(HoleText(ANLEITUNGS_TEXTE,HELP_006,NULL));
  		break;
 		case SG_END:
 			switch(button)
@@ -278,7 +281,7 @@ VOID init_phoenix_table(OBJECT *tree,WORD table)
 		if(phoenix_zeiger->Table[table].Column[i].Typ>=0 && phoenix_zeiger->Table[table].Column[i].Typ<=14)
 			strcat(H,&Datentypen[phoenix_zeiger->Table[table].Column[i].Typ][0]);
 		else
-			strcat(H,"unbekannt");
+			strcat(H,HoleText(TEXTE,TEXT_015,NULL));
 		strcat(H,"\t");
 		if(phoenix_zeiger->Table[table].Column[i].Typ==TYPE_CHAR) /* Sonderbehandlung bei Zeichenkette */
 			sprintf(ZStr,"%7li",phoenix_zeiger->Table[table].Column[i].Size-1);
@@ -307,13 +310,13 @@ VOID textbeschreibung(VOID)
 	LPBASE_INFO lpinfo;
 	
 	strcpy(Name,"*.*");
-	i=FileSelect(Name,ph_path,"*.TXT\0","Phoenix Struktur schreiben",datei);
+	i=FileSelect(Name,ph_path,"*.TXT\0",HoleText(TEXTE,TEXT_046,NULL),datei);
 	if(!i)
 		return;
 	fp=fopen(datei,"wb+");
 	if(fp==NULL)
 	{
-		Alert(ALERT_NORM,1,"[3][Fehler beim erzeugen der Datei.][[Mist]");
+		Note(ALERT_NORM,1,DATEI_ERZEUGEN);
 		return;
 	}
 	lpinfo=&info;
@@ -358,9 +361,15 @@ VOID set_menu_phoenix(WORD open)
 
 VOID init_phoenix_Import(VOID)
 {
+	WORD i;
+
 	phoenix_zeiger=NULL;
 	slider_phoenix_struct=NULL;
 	set_menu_phoenix(FALSE);
+
+	for(i=0; i<15; i++)
+		HoleText(TEXTE,TEXT_025+i,&Datentypen[i][0]);
+
 }
 
 /*--------------------------------------------------------------------------*/

@@ -10,7 +10,9 @@
 #include <keytab.h>
 #include <import.h>				/* Wegen des Datentyp DATE */
 #include <phoenix.h>			/* Wegen des Datentyp DATE */
+#include "db2ph.h"
 #include "dbase.h"
+#include "rsc.h"
 
 /*--------------------------------------------------------------------------*/
 /* EXTERNE VARIABLE																													*/
@@ -47,25 +49,27 @@ LOCAL VOID flip_long(WORD *adr);
 
 WORD dBase_open(DBStruct *d,BYTE *file)
 {
-	WORD i;
-	LONG offset;
 	BYTE typ;
-	LONG len,r;
+	WORD i;
+	LONG ret;
+	LONG offset;
+	LONG len;
 	dBASEII_Header HeadII;
 	dBASEII_FIELD FieldII;
 	dBASEIII_Header HeadIII;
 	dBASEIII_FIELD FieldIII;
 	
 	memset(d,0,sizeof(DBStruct));
-	d->f=fopen(file,"rb+");
-	if(d->f==NULL)
+	ret=Fopen(file,FO_RW);
+	if( ret < 0 )														/* Fehler beim ”ffnen aufgetreten	*/
 		return FALSE;
-	r=fread(&typ,1,1,d->f);									/* Type der Datenbank lesen				*/
-	if(r!=1)
+	d->f=(WORD)ret;													/* Datehandle holen								*/
+	ret=Fread(d->f,1,&typ);									/* Type der Datenbank lesen				*/
+	if(ret!=1)
 	{
 		ShowArrow();
-		Alert(ALERT_NORM,1,"[3][Fehler beim lesen der dBASE Datei.][[Mist]");
-		fclose(d->f);
+		Note(ALERT_NORM,1,DBASE_LESE_FEHLER);
+		Fclose(d->f);
 		return FALSE;
 	}
 	switch((WORD)typ)												/* Typ der Datenbank auswerten		*/
@@ -82,20 +86,20 @@ WORD dBase_open(DBStruct *d,BYTE *file)
 		break;
 		default:
 			ShowArrow();
-			Alert(ALERT_NORM,1,"[3][Unbekanntes dBASE-Format.][[Schade]");
-			fclose(d->f);
+			Note(ALERT_NORM,1,DBASE_FORMAT);
+			Fclose(d->f);
 			return -1;
 	}
-	fseek(d->f,0,SEEK_SET);									/* Wieder an den Anfang						*/
+	Fseek(0,d->f,0);												/* Wieder an den Anfang						*/
 	if(d->typ==DBASEII)											/* dBASEII												*/
 	{
 		len=sizeof(dBASEII_Header);
-		r=fread(&HeadII,1,len,d->f);					/* Header lesen										*/
-		if(r!=len)
+		ret=Fread(d->f,len,&HeadII);					/* Header lesen										*/
+		if(ret!=len)
 		{
 			ShowArrow();
-			Alert(ALERT_NORM,1,"[3][Fehler beim lesen der dBASE Datei.][[Mist]");
-			fclose(d->f);
+			Note(ALERT_NORM,1,DBASE_LESE_FEHLER);
+			Fclose(d->f);
 			return FALSE;
 		}
 		d->headersize=521;										/* Gr”že des Header								*/
@@ -108,14 +112,14 @@ WORD dBase_open(DBStruct *d,BYTE *file)
 		len=sizeof(dBASEII_FIELD);
 		for(i=0; i<31; i++)										/* Max 32 Felder erlaubt					*/
 		{
-			r=fread(&FieldII,1,len,d->f);
+			ret=Fread(d->f,len,&FieldII);	
 			if(FieldII.Name[0]==0x0d)						/* Letztes Feld?									*/
 				break;
-			if(r!=len)
+			if(ret!=len)
 			{
 				ShowArrow();
-				Alert(ALERT_NORM,1,"[3][Fehler beim lesen der dBASE Datei.][[Mist]");
-				fclose(d->f);
+				Note(ALERT_NORM,1,DBASE_LESE_FEHLER);
+				Fclose(d->f);
 				return FALSE;
 			}
 			strcpy(&(d->field[i].Name[0]),&FieldII.Name[0]);
@@ -130,12 +134,12 @@ WORD dBase_open(DBStruct *d,BYTE *file)
 	else																		/* >= dBASEIII + Memofelder				*/
 	{
 		len=sizeof(dBASEIII_Header);
-		r=fread(&HeadIII,1,len,d->f);					/* Header lesen										*/
-		if(r!=len)
+		ret=Fread(d->f,len,&HeadIII);					/* Header lesen										*/
+		if(ret!=len)
 		{
 			ShowArrow();
-			Alert(ALERT_NORM,1,"[3][Fehler beim lesen der dBASE Datei.][[Mist]");
-			fclose(d->f);
+			Note(ALERT_NORM,1,DBASE_LESE_FEHLER);
+			Fclose(d->f);
 			return FALSE;
 		}
 		flip_word((BYTE *)&HeadIII.Headersize);
@@ -152,14 +156,14 @@ WORD dBase_open(DBStruct *d,BYTE *file)
 		len=sizeof(dBASEIII_FIELD);
 		for(i=0; i<d->fields; i++)						/* Max 128 Felder erlaubt					*/
 		{
-			r=fread(&FieldIII,1,len,d->f);
+			ret=Fread(d->f,len,&FieldIII);	
 			if(FieldIII.Name[0]==0x0d)					/* Letztes Feld?									*/
 				break;
-			if(r!=len)
+			if(ret!=len)
 			{
 				ShowArrow();
-				Alert(ALERT_NORM,1,"[3][Fehler beim lesen der dBASE Datei.][[Mist]");
-				fclose(d->f);
+				Note(ALERT_NORM,1,DBASE_LESE_FEHLER);
+				Fclose(d->f);
 				return FALSE;
 			}
 			strcpy(&d->field[i].Name[0],&FieldIII.Name[0]);
@@ -173,8 +177,8 @@ WORD dBase_open(DBStruct *d,BYTE *file)
 		if(d->buffer==NULL)
 		{
 			ShowArrow();
-			Alert(ALERT_NORM,1,"[3][Keine Speicher mehr frei.][[Mist]");
-			fclose(d->f);
+			Note(ALERT_NORM,1,KEIN_SPEICHER);
+			Fclose(d->f);
 			return FALSE;
 		}
 	 dBase_move(d,1);
@@ -191,7 +195,7 @@ VOID dBase_close(DBStruct *d)
 	if(d->modi)
 	{
 	}
-	fclose(d->f);
+	Fclose(d->f);
 	free(d->buffer);
 }
 
@@ -202,16 +206,16 @@ VOID dBase_close(DBStruct *d)
 /* Rckgabe: TRUE = Alles OK																								*/
 /*					 FALSE = Zeiger konnte nicht gesetzt werden.										*/
 
-WORD dBase_move(DBStruct *d,ULONG pos)
+WORD dBase_move(DBStruct *d,LONG pos)
 {
-	LONG r;
+	LONG ret;
 	
 	if(pos>d->recs || pos<1)
 		return FALSE;
-	if(fseek(d->f,d->headersize+(pos-1)*d->recsize,SEEK_SET)!=0)
+	if(Fseek(d->headersize+(pos-1)*d->recsize,d->f,0)<0)
 		return FALSE;
-	r=fread(d->buffer,1,d->recsize,d->f);
-	if(r!=d->recsize)
+	ret=Fread(d->f,d->recsize,d->buffer);
+	if(ret!=d->recsize)
 		return FALSE;
 	d->fpos=pos;
 	if(keytab_id_import!=-1)
@@ -226,13 +230,13 @@ WORD dBase_move(DBStruct *d,ULONG pos)
 
 WORD dBase_move_plus(DBStruct *d)
 {
-	LONG r;
+	LONG ret;
 
 	if(d->fpos>=d->recs)
 		return FALSE;
 	d->fpos++;
-	r=fread(d->buffer,1,d->recsize,d->f);
-	if(r!=d->recsize)
+	ret=Fread(d->f,d->recsize,d->buffer);
+	if(ret!=d->recsize)
 	{
 		dBase_move(d,d->fpos-1);
 		return FALSE;
@@ -353,14 +357,14 @@ WORD dBase_create(DBStruct *f,BYTE *name)
 
 	if(file_exist(name))
 	{
-		i=Alert(ALERT_NORM,2,"[3][Die Datei ist schon vorhanden.| Soll sie berschrieben werden][[Ja|[Nein]");
+		i=Note(ALERT_NORM,2,DBASE_DATEI_VORHANDEN);
 		if(i==2)
 			return FALSE;
 	}
 	f->f=fopen(name,"rb+");
 	if(f->f==NULL)
 	{
-		Alert(ALERT_NORM,2,"[3][Die Datei konnte nicht erzeugt werden.][[OK]");
+		Note(ALERT_NORM,2,DATEI_ERZEUGEN);
 		return FALSE;
 	}
   memset(Header,0,sizeof(dBASEIII_Header));
@@ -409,11 +413,16 @@ WORD dBase_create(DBStruct *f,BYTE *name)
 
 WORD dBase_append(DBStruct *d)
 {
+	LONG ret;
+
 	d->recs++;
 	memset(d->buffer,' ',d->recsize);
 	d->buffer[d->recsize]=0x1a;
-	fseek(d->f,d->headersize+(d->recs-1)*d->recsize-1,SEEK_SET);
-	if(fwrite(d->buffer,1,d->recsize+1,d->f)!=d->recsize+1)
+	ret=Fseek(d->headersize+(d->recs-1)*d->recsize-1,d->f,0);
+	if(ret < 0)
+		return FALSE;
+	ret=Fwrite(d->f,d->recsize+1,d->buffer);
+	if(ret < 0 || ret!=d->recsize+1)
 		return FALSE;
 	d->fpos=d->recs;
 	d->modi=TRUE;

@@ -2,7 +2,7 @@
 
 EXTERN BYTE ph_path[300];										/* Phoenix Path									*/
 EXTERN PhoenixStruct *phoenix_zeiger;
-EXTERN BYTE Datentypen[16][17];
+EXTERN BYTE Datentypen[16][30];
 EXTERN BYTE ph_name[50],ph_passwort[50];
 
 EXTERN VOID open_phoenix(VOID);
