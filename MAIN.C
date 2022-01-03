@@ -6,13 +6,13 @@
 #include <phoenix.h>
 #include <sys_gem2.h>
 #include "copyrigh.h"
+#include "db_2_ph.h"
 #include "dbase.h"
 #include "db_imp.h"
 #include "drucker.h"
-#include "file.h"
 #include "key.h"
 #include "make.h"
-#include "new.h"
+#include "ph_2_db.h"
 #include "ph_base.h"
 #include "ph_imp.h"
 #include "db2ph.h"
@@ -39,10 +39,7 @@ LOCAL VOID init_programm(VOID);
 LOCAL VOID init_SysGem(VOID);
 LOCAL VOID kommandozeile(int argc, const char *argv[]);
 LOCAL VOID exit_programm(VOID);
-LOCAL WORD handle_menue(WORD item);
-
-LOCAL VOID test(WORD *msg);
-
+LOCAL WORD handle_menue(WORD *msg, WORD item);
 
 /*--------------------------------------------------------------------------*/
 /* LOCALE VARIABLES																													*/
@@ -92,7 +89,7 @@ VOID init_programm(VOID)
 	strcpy(ph_path,db_path);
 	strcpy(home,db_path);									/* INF-Path setzen									*/
 	strcat(home,"\\db2ph.inf");
-	if(file_exist(home))									/* Konfigdatei vorhanden?						*/
+	if(FileExists(home))									/* Konfigdatei vorhanden?						*/
 	{
 		if(LoadConfig(home)==0L)						/* Konfigdatei laden								*/
 		{
@@ -129,7 +126,6 @@ VOID init_SysGem(VOID)
 	DialPosXY(TRUE);
 	SetReturn(FALSE);
 	Enable3D();
-	SetUnknownEvent(test);
 	SetOnlineHelp("ST-GUIDE","","*:\\db2ph.HYP");
 }
 
@@ -154,7 +150,7 @@ VOID exit_programm(VOID)
 /*--------------------------------------------------------------------------*/
 /* MenÅzeile bearbeiten																											*/
 
-WORD handle_menue(WORD item)
+WORD handle_menue(WORD *msg, WORD item)
 {
 	LONG top;
 
@@ -193,7 +189,10 @@ WORD handle_menue(WORD item)
   		WindowDialog('IMPO',-1,-1,"dBASE to Phoenix","",FALSE,FALSE,main_tree,NULL,0,NULL,handle_import);
   	break;
   	case MERZEUGEN:
-  		phoenix_neu();
+  		DbaseToPhoenix();
+  	break;
+  	case MPHOENIXDBASE:									/* Phoenix nach dBase									*/
+  		PhoenixToDbase();
   	break;
 		case MKEYTAB:												/* Filter einstellen									*/
 			import_keytab();
@@ -210,12 +209,3 @@ WORD handle_menue(WORD item)
   return SG_CONT;
 }
 
-
-
-VOID test(WORD *msg)
-{
-/*
-	OpenLogWindow('TEST',"Test","",40,20,-1,-1,(APROC)NULL);
-	wprintf('TEST'," %XX\n",msg[0]);
-*/
-}

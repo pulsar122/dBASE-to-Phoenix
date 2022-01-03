@@ -2,7 +2,13 @@
 !node Historie
 
 #----------------------------------------------------------------------------*/
+!subnode Version 0.08.02 vom 14.02.2001
 
+!begin_itemize !short
+	!item Konvertiern von Phoenix -> dBASE
+!end_itemize
+
+#----------------------------------------------------------------------------*/
 !subnode Version 0.07 vom 07.02.2000
 
 !begin_itemize !short

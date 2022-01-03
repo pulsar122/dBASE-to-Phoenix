@@ -1,0 +1,346 @@
+/* ChangeLog for dbflib */
+
+27.03.97
+	* fixed typo in perl/Dbf.pm
+	* renamed config.h dbfP.h
+	* released version 0.7
+	* some additions to the man-page
+	* changed dbf.h to include stdio.h
+	* added some malloc return value checks in dbf.c
+	* some cosmetic changes in dbf.c
+
+25.02.97
+	* fixed dbStrNext(), thanks to Warner.Hoekstra@nlutrfsc.origin.nl
+
+07.10.96
+	* added misc/xdbf
+
+05.10.96
+	* released version 0.6
+	* fixed type on Dbf.pm
+
+13.09.96
+	* minor changes in Dbf.pm to prevent some warnings ..
+	* added FT_OBJECT, FT_PICTURE to dbInitField()
+	* small fix in dbOpen()
+
+11.09.96
+	* changed rawTrToAscii() to return allways "T" or "F" or ""
+	* added FT_PICTURE in dbf.h but no support for this field type
+	* added structure member "offset" to "db_field" and splitted
+	  reserved3 to reserved3, set_field and reserved4
+
+04.09.96
+	* changed dbChangeField() to handle FT_FLOAT in the same manner
+	  as FT_NUMBER
+	* changed dbChangeField() to ignore empty memo fields
+	* changed rawTrToAscii() to return also an empty string for
+	  FT_BOOLEAN if there is a '?' in the field
+	* fixed dbAppendBlank() to initialisize FT_BOOLEAN with '?'
+	* added FT_BINARY, FT_OBJECT for completness in the
+	  header file, but no support to handle these field types
+	* renamed FT_OBJECT to FT_GENERAL (!!!)
+
+30.08.96
+	* fixed bug in dbGetFieldNum()
+
+30.08.96
+	* released version 0.5
+	* minor changes in Dbf.xs
+	* changed dbClose(): removed adding DOS_EOF at the end
+	* changed dbAppendBlank() to add DOS_EOF at the end
+
+27.08.96
+	* changed io_read_field()
+	* changed ->open() to use only defined values
+
+26.08.96
+	* added ->locate() and ->continue() to Dbf.pm
+	* changed dbTrSelByNumber() to use io_read_field(), speeds up this
+	  function about 25 % :-)
+	* added io_read_field()
+	* small fix in dbChangeField()
+	* small fix in dbInitField()
+	* changed rawTrToAscii() to return objects as hex valued strings
+	* added obj2hex()
+
+25.08.96
+	* released version 0.4.9
+	* changed dbfinfo to show number of decimal places
+	* minor changes in dbf.3
+	* renamed dbType() to dbGetType()
+	* added ->fld_num()
+	* chagned ->get_field() to work more liek the Pratap's version,
+	  the previous version is now called get_fld()
+	* added dbGetFieldNum()
+
+22.08.96
+	* changed ->get_record() to work more like the Pratap's version,
+	  the previous version is now called get_rec()
+	* changed sep_by_field_num() to return also date fields as raw
+	  values, this changes also the behaviour of dbSelByNumber() a
+	  little bit.
+	* added dbRawField()
+
+21.08.96
+	* released version 0.4.8
+	* fixed bug in rawTrToAscii() to return empty field for booleans
+	* fixed bug in add_memo_entry() - foxpro and dbase memo support
+	  didn't but my own programs :)
+
+20.08.96
+	* changed prep_num() to make it more simple
+	* changed prep_float() and dbChangeField() to honor number of decimal
+	  places for float fields
+	* fixed bug in ->dbf_struct()
+	* added dbGetFieldDec()
+	* changed dbInitField() to support number of decimal places
+	  changed Dbf.pm and Dbf.xs accordingly
+	* Dbf.pm: renamed ->wind() to ->skip()
+	* Dbf.pm: added ->eof()
+	* Dbf.pm: renamed ->dbf_stat() to ->dbf_struct()
+
+19.08.96
+	* added ->dbf_stat() to Dbf.pm
+	* added ->last_udpate() to Dbf.pm
+	* added dbLastUpdate() to dbf.c
+	* added ->dbf_type() to Dbf.pm
+	* added dbType() to dbf.c
+
+18.08.96
+	* renamed some internal functions to io_* to indicate IO acess
+	* added "current" to the DBF structure and edited goto_nr() and some
+	  other to get in sync with the "current"-value..
+	* fixed bug in is_deleted()
+	* minor changes in rawTrToAscii() and sep_field_by_num()
+	* added check of return value from add_dbf_to_list() in dbCreate()
+	* added check of return value from add_dbf_to_list() in dbOpen()
+	* removed the linked list for open dbf-files in dbf.c and
+	  added an vector instead .. it's more simple :)
+	* started to add idx-file support .. not ready!
+	* minor changes in dbClose()
+
+17.08.96
+	* released version 0.4.7
+	* fixed a bug in dbUndelRecord()
+	* fixed a bug in dbAppendBlank()
+	* fixed a bug in dbDelRecord()
+	* fixed a bug in del_record()
+	* added date field support to dbChangeField()
+	* added prep_date()
+	* fixed add_dbf_to_list() and rm_dbf_from_list() to prevent
+	  a run out of handles
+
+16.08.96
+	* fixed some bugs in dbInitField() to adjust the field length
+	* fixed a bug in rawTrToAscii()
+	* added dbCurrent() to dbf.c -> returns current position
+	* changed add_memo_entry() third arg form char * to const char *
+	* added dbChangeFieldRaw()
+	* renamed dbChangeRecord() to dbChangeField() because it says more
+	  what it is .. but also still not ready :)
+
+15.08.96
+	* added some function to the perl module to be a little
+	  bit compatible to Pratap's xbase package
+
+14.08.96
+	* added prep_num()
+	* minior changes in dbChangeRecord() .. still not ready.
+
+11.08.96
+	* first sucessful test with the perl module :)
+
+10.08.96
+	* started to write a perl module to use dbflib with perl 5.00x
+	  see the subdirectory "perl/"..
+	* added config.h to the lib directory
+
+30.03.96
+	* released 0.4.6
+	* minor changes in dbf.3
+	* added type FOXPRO_2 to dbCreate(), now foxpro is not the
+	  default!
+	* changed dbCreate() to use code page flag "windows ANSI" as
+	  default while creating a new xbase file
+	* changed dbf.c: get_memo() to support dBase memo files
+	* changed dbInitField() to support dBase memo files
+	* added addiotional checking for a correct header in dbOpen()
+
+23.03.96
+	* changed arg 2 of dbSelByNumber() and dbTrSelByNumber() to WORD
+	* changed system defines in dbf.h
+
+18.03.96
+	* released version 0.4.5
+	* changed first return value of dbCreate()
+	* some changes in the man-page
+	* changed all functions which uses dberrno
+	* removed dbError() and dbClearerr() from dbf.c
+
+17.03.96
+	* changed return codes of dbGetFieldType() and dbGetFieldLength()
+	* added E_FLD_NR (error field number) to dbf.h
+	* changed dbGetNumOfRecs(): sets the dberrno
+
+16.03.96
+	* changed dbfconv.c: to_html() to work better on deleted records
+	* changed arg 2 of is_deleted() from int to DWORD
+	* changed arg 2 of dbTrSelByNumber() and dbSelByNumber() from int
+	  to DWORD
+	* fixed small bug in dbfconv.c: to_html()
+	* added dbError() to dbTrByName(), dbTrSelByNumber() and dbSelByNumber()
+	* added "-p" switch to dbfconv (prints record number in front
+	  of the line)
+
+11.03.96
+	* removed the dll from the distribution, cause it's no
+	  usable until now, so why distribute a dummy binary :)
+	* changed CopyToFile() in the same way as sep_field_by_num()
+	* changed sep_field_by_num(): now uses a fixed buffer for number
+	  conversion (in case of memo fields) to speed up the function
+	* added dbCopyToFile() to the man-page
+	* changed dbCopyToFile() to handle also memo-fields and
+	  added the default behaviour "num = 0" (see man-page)
+	* fixed dbCopyToFile(): transaction flag was not reseted
+	* added "-I./lib" to the CFLAGS
+
+10.03.96
+	* the dos version seems to be ok now, perhaps cause of the bug
+	  in alloc_dbf().. :-)
+	* some changes in the man-page (still not ready)
+	* fixed a small but dirty bug in alloc_dbf (wrong space allocating for "DBF.offset")
+	* changed dbStrNext() to use a switch instead of a if()..
+	* removed tempnam prototypes in dbf.c cause we dont need them
+	  after changing the dbPack() function
+
+10.03.96
+	* released version 0.4.4
+	* dos versions seems to bee still buggy ..? after calling the
+	  dos version the console hangs :-(
+	* added tcc20.mak for the dos versions, the makefile need some
+	  work cause it tries all the time to compile lib/dbfdll.c ..??
+	* changed second and third arg of cp_record() from int to DWORD
+	* changed second arg of del_record() from int to DWORD
+	* small fix in definition of dbRestore (dbf.c)
+
+09.03.96
+	* changed dbCopyToFile() to use the new "offset" variable
+	* changed dbChangeRecord() to use the new "offset" variable
+	* changed dbTrStrNext() to use the new "offset" variable
+	* changed sep_field_by_num() to use the new "offset" variable
+	* added the structure member "offset" to DBF for faster offset
+	  calculating of the position of a field in a record
+	* fixed a small bug in update_field()
+	* added dbUseIndex() - empty function, needs some life :)
+	* added dbCopyToFile()
+	* removed "show_deleted" from the DBF structure
+	* added index structures to dbf.h
+
+08.03.96
+	* added a access_mode flag in dbf.h
+	* created some subdirectories to get a better order of the files
+
+06.03.96
+	* updated a little bit the man-page and the README ..
+	* added dbRestore() for better testing of dbPack() :-)
+	* changed dbPack() cause it behaved more as "copy to file"
+	* fixed a bug in dbDelRecord() and dbUndelRecord()
+	* added del_record(), cp_record(), is_deleted()
+
+03.03.96
+	* added structure member "code" to the xbase header
+	* fixed a small bug in dbInitField() to calculate the right record size
+	* added add_memo_entry() - still buggy?
+	* added write_memo_header()
+	* changed dbInitField() to handle memo files
+	* small fix in dbCreate(): file name was not saved in the structure
+
+02.03.96
+	* small fix in dbfconv.c concerning the behavior of the "-m" switch
+	* added dbSelByNumber() - now without stripping white spaces :)
+	* added sep_field_by_num()
+	* renamed dbSelByNumber() to dbTrSelByNumber()
+	* renamed rawToAscii() to rawTrToAscii()
+	* changed db_raw_next(): missing a free(), added a '\0' to the end of
+	  read record to make it more secure ..
+	* renamed dbGetNsFieldName() to dbGetExFieldName()
+	* renamed dbNsStrNext() to dbStrNext()
+	* renamed dbStrNext() to dbTrStrNext()
+	* started to change the API: functions which strips the whitespaces
+	  from fields are now called "db*Tr*()"
+
+01.03.96
+	* added dbPack() - dirty hack :) but it seems to work
+	* added file_name to the structure DBF
+
+29.02.96
+	* added the "-f" switch to "dbfconv"
+	* added dbNsStrNext(), "Ns" =  Not Striped
+	* added dbGetNsFieldName()
+	* dbf.c: dbInitField(), fixed checking of name length (10 character)
+	* dbf.c: added some missing casting before malloc()
+	* dbf.c: dbRawNext() - arg 2: int -> WORD
+	* dbf.h: DBF.access_mode,show_deleted,handle,memo - short,UCHAR -> int
+	* dbf.h: db_memo.type - UCHAR -> int
+	* changed dbInitField(): int type -> UCHAR type, int length -> UCHAR length
+	* changed arg 3 of dbCreate() from int to UCHAR
+	* dbf.c: added dbGetMode(), returns the access mode
+	* dbfdll.c: added dbOpenW() as a comfortable open function
+	* added dbfdll.c for some DLL stuff ..
+
+28.02.96
+	* released version 0.4.3
+	* fixed a small bug in dbDelRecord() and dbUndelRecord()
+	* minor changes signed/unsigned types
+	* some addings (see end of dbf.c) for windows dll support (not tested)
+	* short tests on a big endian host (sun/sparc): worked fine :)
+
+27.02.96
+	* changed dbInitField() to use allways upper letters for field names
+	* added some stuff for compiling as windows dll (not ready until now)
+	* changed dbwind() to check the fseek() before returning
+	* fixed dbClose() -> access mode checking was wrong
+	* wrote the small testprogram "dbfdel" for delete or undelete records
+	* added dbUndelRecord()
+	* changed dbDelRecord() to test the mode (WRITE/READ)
+	* changed dbChangeRecord() to test the mode (WRITE/READ)
+	* added write_field_desc()
+	* added read_memo_header()
+	* added write_header() for big endian support (not tested)
+	* changed write_new_header() and update_header() to use write_header()
+	* added DB_IGNORE_MEMO to the dbOpen() flags
+	* added some lines to dbOpen() to check the file size before
+	  reading the complete header
+	* added read_header() for big endian support (not tested)
+	* added some macros for big/little endian support, only
+	  reading of xbase files until now! do not forget to set the
+	  LSB/MSB_HOST macro in dbf.h!!!
+	* added read_field_desc() to get rid of boundary depedency
+
+26.02.96
+	* released version 0.4.2
+	* some minor changed (castings ..) to get rid of some warnings :)
+	* the DOS version still does NOT work :-(
+
+25.02.96
+	* added mini.c as a very small example
+	* updates to the man-pages
+	* added shared library for linux in the makefile
+	* added dbSetUseMemo(), cause sometimes it's good to
+	  disable memo-file support, dirty hack, only for reading ..
+	* added "-m" to "dbfconv" for memo-support
+
+24.02.96
+	* changed the archive name from "xhex" to "dbflib" cause the
+	  libdbf.a is the main focus from now :)
+
+23.02.96
+	* added endian.c to test what type of system it is
+	* first thoughts about little/big endian problems :)
+	  but no code until now..
+
+22.02.96
+	* added ChangeLog to see what i'am changing ..
+	* some minor changed in the API (return values, types..)
+

@@ -60,7 +60,7 @@ VOID open_dbase(VOID)
 	
 	strcpy(Name,"Test");
 	HoleText(TEXTE,TEXT_001,str);
-	i=FileSelect(Name,db_path,"*.DBF",str,datei);
+	i=FileSelect(Name,db_path,"*.DBF\0*.*\0",str,datei);
 	if(i)
 	{
 		dbase_zeiger=(DBStruct *)malloc(sizeof(DBStruct));

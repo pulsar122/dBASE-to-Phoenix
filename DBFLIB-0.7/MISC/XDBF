@@ -1,0 +1,35 @@
+#!/usr/bin/perl -w
+# (c) rasca berlin 1996 (http://home.pages.de/~rasca/)
+# published under the GNU GPL
+# xdbf v0.03, shows a xbase table
+# needs "perl5", "Tk400.200" and my "dbflib-0.6" package
+
+use Tk;
+use Tk::Table;
+use Dbf;
+
+if (!@ARGV) {
+	die "Usage: $0 <file.dbf>\n";
+}
+$wMain = MainWindow->new();
+$wMain->bind('all', '<Control-c>' => \&exit);
+$wMain->title("xdbf: $ARGV[0]");
+$wTable = $wMain->Table(columns => '5', rows => '20', fixedrows => 1)->pack();
+$db = Dbf->new($ARGV[0]);
+$db->open() || exit;
+@flds = $db->fld_names();
+$max = $db->fields();
+for ($x = 0; $x < $max; $x++) {
+	$wTable->put(0,$x,
+		$wTable->Label(text => $flds[$x], relief => 'ridge'));
+}
+$max_rec = $db->records();
+for ($y = 0; $y < $max_rec; $y++) {
+	for ($x = 0; $x < $max; $x++) {
+		$wTable->put($y+1,$x,
+			$wTable->Label(text => $db->get_fld($flds[$x]), relief => 'sunken'));
+	}
+	$db->go_next();
+}
+$db->close();
+MainLoop;

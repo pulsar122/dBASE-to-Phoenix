@@ -7,18 +7,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys_gem2.h>
-#include <keytab.h>
 #include <import.h>				/* Wegen des Datentyp DATE */
 #include <phoenix.h>			/* Wegen des Datentyp DATE */
+
 #include "db2ph.h"
 #include "dbase.h"
+#include "key.h"
 #include "rsc.h"
 
 /*--------------------------------------------------------------------------*/
 /* EXTERNE VARIABLE																													*/
 
-EXTERN keytab_id_import;										/* Keytabfilter									*/
-EXTERN KEYT *keytab;												/* Variable fÅr Keytab-Cookie		*/
 
 /*--------------------------------------------------------------------------*/
 /* EXTPORTIERTE VARIABLE																										*/

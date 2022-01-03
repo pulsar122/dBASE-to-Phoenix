@@ -12,9 +12,10 @@
 #define MDBASEDATEN 29  /* STRING in tree MENU */
 #define MIMPORT 31  /* STRING in tree MENU */
 #define MERZEUGEN 33  /* STRING in tree MENU */
-#define MKEYTAB 35  /* STRING in tree MENU */
-#define MFWECHSEL 37  /* STRING in tree MENU */
-#define MFSCHLIESSEN 38  /* STRING in tree MENU */
+#define MPHOENIXDBASE 34  /* STRING in tree MENU */
+#define MKEYTAB 36  /* STRING in tree MENU */
+#define MFWECHSEL 38  /* STRING in tree MENU */
+#define MFSCHLIESSEN 39  /* STRING in tree MENU */
 
 #define DBASESTRUKMENU 1  /* menu */
 #define DPROGRAMMINFO 7  /* STRING in tree DBASESTRUKMENU */
@@ -142,9 +143,11 @@
 #define EINLOGISCHTEXT 12  /* BUTTON in tree EINSTELLUNGEN */
 
 #define KEYTAB 9  /* form/dial */
-#define KEYTABIMABBRUCH 1  /* BUTTON in tree KEYTAB */
-#define KEYTABIMPOK 2  /* BUTTON in tree KEYTAB */
-#define KEYTABLIST 3  /* TEXT in tree KEYTAB */
+#define KEYTAB_ABBRUCH 1  /* BUTTON in tree KEYTAB */
+#define KEYTAB_OK 2  /* BUTTON in tree KEYTAB */
+#define KEYTABLIST_IMPORT 3  /* TEXT in tree KEYTAB */
+#define KEYTABLIST_EXPORT 5  /* TEXT in tree KEYTAB */
+#define KEYTAB_SETZEN 7  /* BUTTON in tree KEYTAB */
 
 #define PRN_SUB 10  /* form/dial */
 #define PS_GFNAME 2  /* TEXT in tree PRN_SUB */
@@ -231,3 +234,11 @@
 #define FEHLER_NULL_SETZEN 10  /* Alert string */
 
 #define FEHLER_EINFUEGEN_FELD 11  /* Alert string */
+
+#define DATEI_NICHT_DA 12  /* Alert string */
+
+#define DBASE_ERZEUGEN 13  /* Alert string */
+
+#define DBASE_NEUER_SATZ 14  /* Alert string */
+
+#define ALLE_SPALTEN 15  /* Alert string */

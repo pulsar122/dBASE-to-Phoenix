@@ -18,3 +18,30 @@
 						integrieren.
 01.03.2000	Alle Texte werden nun aus der Resource-Datei geladen.
 02.03.2000	---> Version 0.07 
+11.11.2000	dBASE-Library aus dem WWW gesaugt und bersetzt.
+						Mit neuster SysGem-Version gelinkt.
+10.12.2000	dBASE-Datei wird geschrieben, allerdings nur Zeichenketten.
+13.12.2000	Fehler in der dBASE-Lib entfernt. Beim Schreiben eines 
+						neuen Header wurden nur die Feldinfos geschrieben.
+						Datenformat Text wird konvertiert. Ist es allerdings
+						gr”žer als 254 wird er abgeschnitten.
+14.12.2000	Word, Long, Datum werden untersttzt, allerdings ohne test.
+23.12.2000	TYPE_CHAR wird ab mehr als 254 Zeichen in ein Memofeld
+						geschrieben. Das gleiche passiert mit TYPE_EXTERN.
+						TYPE_TIME und TYPE_TIMESTAMP kommen in ein Zeichenfeld.
+18.01.2000	-> Version 0.08 an Dietmar geschickt.
+20.01.2000	Version 0.08.01
+						Die dBASE-Lib setzte das Verschlsselungsflag falsch.
+						[Dietmar Belloff]
+21.01.2000	Schreibt jetzt eine Fehlerdatei.
+						Der Typ TYPE_DBADRESSSE wird nicht mehr versucht zu
+						exportieren.
+						-> Version 0.08.01 an Dietmar geschickt.
+22.01.2000	Version 0.08.02
+						Man kann mit Hilfe von Keytab einen Exportfilter aus-
+						w„hlen.
+						Felder des Typs TYPE_CHAR werden vor dem Export ge-
+						wandelt.
+24.01.2000	Ist ein Datumsfeld leer, dann wird nicht mehr '00000000'
+						sondern nur Leerzeichen ausgegeben. [Dietmar Belloff]
+						-> Version 0.08.02 an Dietmar geschickt.

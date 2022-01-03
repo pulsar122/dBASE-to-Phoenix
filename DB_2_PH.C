@@ -10,7 +10,6 @@
 #include "dbase.h"
 #include "db_imp.h"
 #include "db2ph.h"
-#include "file.h"
 #include "ph_base.h"
 #include "ph_imp.h"
 #include "main.h"
@@ -46,7 +45,7 @@ typedef struct
 /* Legt einen dBase-Tabelle in eine Phoenixdatenbank an. Dabei kann es sich	*/
 /* um eine bestehende Datenbank handeln oder es wird eine neue erzeugt.			*/
 
-VOID phoenix_neu(VOID)
+VOID DbaseToPhoenix(VOID)
 {
 	BYTE Name[30],datei[300],ZStr[300];
 	BYTE *Record,*s;
@@ -251,11 +250,11 @@ VOID phoenix_neu(VOID)
 		return;
 	}
 	dBase_move(dbase_zeiger,1);							/* An die erste Position					*/
-	ShowStatus(HoleText(TEXTE,TEXT_024,NULL),NULL,0,dbase_zeiger->recs);
+	ShowStatus(HoleText(TEXTE,TEXT_024,NULL),NULL,0,dbase_zeiger->recs, FALSE);
 	for(l=0; l<dbase_zeiger->recs; l++)			/* Alle Datens„tze								*/
 	{
 		if(l%5==0)
-			ShowStatus(NULL,NULL,l,dbase_zeiger->recs);
+			ShowStatus(NULL,NULL,l,dbase_zeiger->recs, FALSE);
 		if(!dBase_deletet(dbase_zeiger))
 		{
 			memset(Record,0,RecSize);						/* Datenpuffer l”schen						*/

@@ -1,0 +1,14 @@
+; ----------------------------
+; Projekt-Datei fÅr die dBASE-Lib
+
+;
+K:\C\LIB\dbase.LIB
+.C[-D_BUILD_LIB]
+.L[-J]
+
+;.C[-V -Y -D_BUILD_LIB]						; Mit Debug
+;.L[-J -G -L -Y]									; Mit Debug
+
+=
+
+dbf.c

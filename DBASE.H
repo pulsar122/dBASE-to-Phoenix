@@ -52,8 +52,9 @@ typedef struct
 	ULONG Records;
 	WORD Headersize;
 	WORD Recsize;
-	BYTE Res[20];
-}dBASEIII_Header;
+	BYTE Res[2];
+																				/* Ab dBASE IV 											*/
+	UCHAR transaction;  /* 1 byte, mark for not ended transactions 						*/	UCHAR crypted;      /* 1 byte, mark for cryption (dBASE IV) 							*/	UCHAR net[12];      /* 12 bytes, reserved for dBASE IV+5.0 network version */	UCHAR mdx;          /* 1 byte, 1 = MDX is there, 0 = no MDX-file 					*/	UCHAR code;			/* foxpro, dBASE IV2.0, 5.0 save here information about the code page */	UCHAR reserved2[2]; /* 2 bytes, reserved */}dBASEIII_Header;
 
 typedef struct
 {

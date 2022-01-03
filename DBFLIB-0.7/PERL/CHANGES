@@ -1,0 +1,41 @@
+Revision history for Perl extension "Dbf".
+
+0.10  Wed Oct 05 18:39:59 1996
+	- fixed typo in fld_names()
+
+0.09  Wed Sep 11 23:39:59 1996
+	- minor changes to prevent warning while using undefined variables
+	- added FT_PICTURE to constant()
+
+0.08  Wed Sep  4 15:00:30 1996
+	- changed Dbf.xs to support the new FT_* types
+
+0.07  Tue Aug 30 10:52:16 1996
+	- added CLEANUP code to some XSUBs
+	- removed unused variable from get_fld()
+
+0.06  Tue Aug 27 08:52:16 1996
+	- added locate() and continue()
+
+0.05  Sun Aug 25 13:54:48 1996
+	- added get_fld(), get_rec()
+	- changed get_field(), get_record()
+
+0.04  Wed Aug 21 08:43:36 1996
+	- added some lines to the man-page
+	- added dbf_struct(), dbf_type(), last_update()
+	- added eof()
+	- renamed wind() to skip()
+	- changed init()
+	- fixes in Dbf.pm and Dbf.xs
+
+0.03  Sat Aug 18 21:22:03 1996
+	- released first public version
+	- most of the methods are done and a little bit tested
+
+0.02  Sat Aug 12 21:22:03 1996
+	- wrote some xsubs and added some basic methods
+
+0.01  Sat Aug 10 20:29:35 1996
+	- original version; created by h2xs 1.16
+

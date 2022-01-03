@@ -1,6 +1,7 @@
 							 					; db2ph.prj
 K:\C\dbase\db2ph.app
 .C[-V]        					; Reines Programm
+
 ;.C[-V -Y]
 ;.S[-Y]
 ;.L[-G -L -Y]
@@ -8,14 +9,14 @@ K:\C\dbase\db2ph.app
 
 pcstartb.o							; Startup Code (Behne)
 copyrigh.c							; Darstellen des Copyrightdialog
-dbase.c									; Berabeiten von dBASE Dateien
+db_2_ph.c								; dBASE-Tabelle in eine Phoenix-Datenbank
+dbase.c									; Bearbeiten von dBASE Dateien
 db_imp.c								; dBASE Datenbank verwalten
-;drucker.c								; Grundfunktionen fÅr WDialog
-file.c									; Verschiedene Dateifunktionen
+drucker.c								; Grundfunktionen fÅr WDialog
 keytab.c								; Funktionen rund um Keytab
 main.c									; Einsteig des Programms
 make.c									; Import
-new.c										; Tabelle/Datenbank neu erzeugen
+ph_2_db.c								; Phoenix-Datenbank nach dBASE
 ph_base.c;							; Routinen zu Phoenix/BASE
 ph_imp.c;								; Phoenix Datenbank verwalten
 rsc.c										; Resourcen bearbeiten
@@ -29,4 +30,5 @@ pcgemlib.lib						; AES and VDI lib
 pcfltlib.lib						; floatingpoint lib
 pcstdlib.lib   					; standard lib
 phoenix.lib							; Phoenix/Base
+dbase.lib
 naes.lib								; Neue AES-Funktionen

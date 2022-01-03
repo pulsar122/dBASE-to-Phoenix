@@ -1,0 +1,38 @@
+LIBRARY		DBFLIB
+DESCRIPTION	'the DLL doesn´t work until now :('
+
+EXETYPE		WINDOWS
+CODE		PRELOAD MOVEABLE DISCARDABLE
+DATA		PRELOAD MOVEABLE SINGLE
+HEAPSIZE	2048
+
+EXPORTS   	dbOpen				@1
+			dbClose				@2
+			dbCreate    		@3
+			dbGotoNr			@4
+			dbWind				@5
+			dbGetNumOfRecs		@6
+			dbGetNumOfFields	@7
+			dbGetFieldLength    @8
+			dbGetFieldType      @9
+;			dbGetFieldName      @10
+			dbRawNext           @11
+;			dbTrStrNext         @12
+;			dbSelByNumber       @13
+;			dbTrSelByName       @14
+			dbSetShowDel        @15
+			dbInitField         @16
+			dbAppendBlank       @17
+			dbChangeRecord      @18
+			dbDelRecord         @19
+			dbUndelRecord       @20
+			dbSetUseMemo        @21
+			dbGetMode           @22
+;			dbGetExFieldName    @23
+;			dbStrNext           @24
+;			dbSelByName			@25
+			dbPack				@26
+;
+			dbOpenW				@90
+            WEP 			PRIVATE
+

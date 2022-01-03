@@ -1,0 +1,35 @@
+#
+# copyright: rasca, berlin 1996
+# published under the GNU Library General Public License
+#
+this is a perl module to link my dbf-library against perl 5.00x
+this package assumes you have installed perl 5.00x
+
+to compile:
+	cd ..
+	make perl
+	cd perl
+	make test
+
+to make a stand alone binary:
+	make perl
+
+to install:
+	make install [not tested :-)]
+
+to read the man-page:
+	perldoc Dbf.pm
+
+to see a simple example:
+	use Dbf;
+	$db = Dbf->new("test.dbf");
+	$db->open() || die;
+	while (@rec = $db->next()) {
+		print "@rec\n";
+	}
+	$db->close();
+__EOF__
+
+---
+rasca, berlin 1996
+

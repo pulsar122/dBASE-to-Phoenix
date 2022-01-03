@@ -290,6 +290,44 @@ Dabei werden ganze Zahlen (also Zahlen ohne Nachkomma) als Long und alle anderen
 Flieûkomma importiert.
 
 ############################################################
+# Phoenix -> dBASE
+############################################################
+!subsubnode Phoenix -> dBASE
+
+Hinter diesem MenÅpunkt versteckt sich die Funktion zum Konvertieren einer
+Phoenix-Datenbank nach dBASE-Tabellen.
+
+Nachdem eine Datenbank ausgewÑhlt ist kommt noch die Frage nach dem Pfad wohin die
+Tabellen geschrieben werden.
+
+Folgende Dinge sind dabei zubeachten: (!nl)
+!begin_itemize !short
+	!item Es wird grundsÑtzlich eine dBASE IV Tabelle angelegt.
+	!item Folgende Datentypen werden unterstÅzt: (!nl)
+				Text, Zahl, Langzahl, Datum, Zeit, Datum+Zeit und externe Datei.
+	!item	Ist ein Feld des Typs Text oder externe Datei grîûer als 254 Zeichen wird
+				es als Memofeld in die dBASE-Tabelle geschrieben.
+	!item Felder des Typs Zeit und Datum+Zeit werden als Zeichenketten Åbertragen.
+				Es gibt leider nichts entsprechendes.
+	!item FÅr jede Phoenix-Tabelle wird eine eigene dBASE-Datei geschrieben. Als
+				Dateiname wird der Name der Tabelle benutzt. (!nl)
+				Achtung: (!nl)
+				Die Namen der Phoenix-Tabellen sollten sich in den ersten 8 Zeichen
+				unterscheiden, sonst kommt es zu Problemen beim Erstellen der Dateien.
+				Alternativ kann man auch alles auf ein Laufwerk welches lange Dateinamen kennt
+				schreiben.
+	!item Die Feldnamen der dBASE-Tabellen entsprechen denen von Phoenix. Allerdings
+				kommt auch hier die LÑngenbegrenzung von dBASE (max. 10 Zeichen) zutragen.
+				Zur Zeit gibt es intern keine Abfragen dafÅr.
+	!item Indexe werden nicht unterstÅtzt.
+!end_itemize
+
+Sollten nicht alle Felder exportiert so kann in einer Textdatei nachgelesen
+werden welche Felder nicht Åbertragen wurden.
+
+Der Datentype Text kann mit Hilfe von Keytab entsprechend beeinfluût werden.
+
+############################################################
 # MenÅ Optionen
 ############################################################
 
@@ -300,9 +338,15 @@ Flieûkomma importiert.
 ############################################################
 !subsubnode Keytab
 
-Im dem erscheinenden Dialog kann man einen Importfilter auswÑhlen,
-damit eine korrekte Zeichenkonvertierung statt findet. Dazu wird das
-Programm KEYTAB von Thomas Much benîtigt.
+Im dem erscheinenden Dialog kann man einen Importfilter und Exportfilter
+auswÑhlen, damit eine korrekte Zeichenkonvertierung statt findet.
+
+Wer mehrere Datenbanken von oder in verschiedene Systeme konvertieren
+muû, kann den Dialog offen lassen und durch den Knopf 'Setzen' die
+Einstellung verÑndern.
+
+Achtung! (!nl)
+Das Programm KEYTAB von Thomas Much wird dazu benîtigt.
 
 ############################################################
 # Fenster schliessen

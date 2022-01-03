@@ -1,0 +1,39 @@
+######## errors, warnings and notes:
+
+Warning: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.stg 189: underfull line: 63: E_HANDLE
+Note: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.U 118: check this paragraph
+Warning: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.stg 227: underfull line: 62: FT_OBJECT,
+Note: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.U 142: check this paragraph
+Warning: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.stg 298: underfull line: 61: dbSetShowDel()
+Note: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.U 189: check this paragraph
+Warning: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.stg 387: underfull line: 63: situation
+Note: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.U 247: check this paragraph
+Warning: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.stg 388: underfull line: 60: E_WRONG_MODE
+Note: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.U 247: check this paragraph
+Warning: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.stg 439: underfull line: 56: DB_IGNORE_MEMO,
+Note: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.U 280: check this paragraph
+Warning: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.stg 523: underfull line: 59: record_number,
+Note: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.U 335: check this paragraph
+Warning: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.stg 572: underfull line: 63: 'permission
+Note: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.U 375: check this paragraph
+
+######## information:
+
+source file: K:\C\DBASE\DBFLIB-0.7\LIB\DBF.U
+
+Warnings:       8
+Notes:          8
+Errors:         0
+
+Nodes:          39
+Subnodes:       0
+Subsubnodes:    0
+Subsubsubnodes: 0
+Macros:         0
+Defines:        0
+Hyphens:        0
+
+started:  21:38:20
+finished: 21:38:26
+
+Output written to K:\C\DBASE\DBFLIB-0.7\LIB\DBF.stg

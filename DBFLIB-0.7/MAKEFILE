@@ -1,0 +1,218 @@
+#
+# makefile for xhex, dbfconv, dbfinfo, hexdump and the other stuff..
+# developed under linux, don't know about other systems .. try out :)
+#
+# comment out "xhex" at "PROGS = .." if you don't have the libsx library
+#
+
+SHELL = /bin/sh
+CC = gcc
+
+# additional CFLAGS (AFLAGS):
+#
+# -DXBASE_SUPPORT adds an menu entry in xhex to read dbase files, dbf.o then
+#                 must also be added to XOBJ. this is a very ALPHA version!
+#
+# -DGERMAN        makes the menu entries of xhex in german language
+#
+
+DFLAGS	=#-DDEBUG #-DDEBUG2 -DDEBUG3 -g
+# only for the xhex program
+AFLAGS	=-DXBASE_SUPPORT -DGERMAN
+
+# it's ok for Linux
+#
+CFLAGS	=-D_BUILD_LIB -Dlinux -O2 -Wall -I/usr/local/X11/include -I./lib $(DFLAGS)
+POSIX	=-ansi -pedantic -posix -W -Wall -Wbad-function-cast -Wcast-qual #-Wconversion
+
+# should be ok for SunOS/sparc with gcc
+#
+#CFLAGS	=-Dunix -O2 -Wall -I/usr/local/X11/include -I./lib $(DFLAGS)
+#POSIX	=-ansi
+
+LDFLAGS =-L/usr/local/X11/lib -L/usr/X11R6/lib $(CFLAGS) -s
+LIBS	=
+XLIBS	=-lsx -lXext -lICE -lSM -lX11 -lXt -lXaw -lXmu $(LIBS)
+
+BINDIR	=/usr/local/bin
+XBINDIR	=/usr/local/X11/bin
+MAN3DIR	=/usr/local/man/man3
+MAN1DIR	=/usr/local/man/man1
+LIBDIR	=/usr/local/lib
+INCDIR	=/usr/local/include
+INSPRO	=install -c
+INSBIN	=-g bin -o bin -s
+
+# --------------------------------------------------------
+
+VERSION=0.7
+XOBJ= xhex/xhex.o xhex/actions.o xhex/freq.o xhex/dirlist.o lib/dbf.o
+
+PROGS =	endian hexdump dbfconv dbfinfo a2dbf dbfdel xhex
+
+defaults: usage
+
+all: $(PROGS) lib/dbf.txt
+
+lib: lib/libdbf.a
+shared: lib/libdbf.so.$(VERSION)
+
+usage:
+	@echo ""
+	@echo "  make endian.test: test for endian type (little / big endian)"
+	@echo "  make all        : compiles xhex, hexdump, dbfinfo, dbfconv and a2dbf"
+	@echo "  make lib        : makes the library libdbf.a"
+	@echo "  make shared     : makes the library libdbf.so.<version>"
+	@echo "  make perl       : makes the perl module"
+	@echo "  make test       : test the program dbfconv"
+	@echo "  make test.write : test the program a2dbf"
+	@echo "  make install    : installs hexdump, dbfinfo, dbfdel, a2dbf and dbfconv"
+	@echo "  make install.x11: installs the program xhex"
+	@echo "  make install.lib: installs the library libdbf.a and dbf.h"
+	@echo "  make install.man: installs the dbf.3 and hexdump.1 man-pages"
+	@echo "  make install.all: installs all the above but not the perl module"
+	@echo ""
+
+lib/dbf.o:	lib/dbf.h
+
+xhex/xhex.o: xhex/xhex.c xhex/xhex.h xhex/msg.h
+	$(CC) $(POSIX) $(CFLAGS) $(AFLAGS) -c xhex/xhex.c -o xhex/xhex.o
+
+xhex/actions.o: xhex/actions.c xhex/xhex.h xhex/msg.h
+	$(CC) $(POSIX) $(CFLAGS) $(AFLAGS) -Wno-unused -c xhex/actions.c -o xhex/actions.o
+
+xhex/dirlist.o:	xhex/dirlist.c
+	$(CC) $(CFLAGS) -c xhex/dirlist.c -o xhex/dirlist.o
+
+xhex/freq.o:	xhex/freq.c
+	$(CC) $(CFLAGS) -c xhex/freq.c -o xhex/freq.o
+
+xhex: xhex/xhex
+
+xhex/xhex:	$(XOBJ) Makefile
+	$(CC) -o xhex/xhex $(XOBJ) $(LDFLAGS) $(XLIBS)
+
+hexdump:	hexdump.c
+	$(CC) $(LDFLAGS) -o $@ hexdump.c
+
+dbfconv:	dbfconv.o lib/dbf.o
+	$(CC) $(LDFLAGS) -o $@ dbfconv.o lib/dbf.o
+
+dbfdel:	dbfdel.o lib/dbf.o
+	$(CC) $(LDFLAGS) $(LIBS) -o $@ dbfdel.o lib/dbf.o
+
+dbfinfo:	dbfinfo.o lib/dbf.o
+	$(CC) $(LDFLAGS) $(LIBS) -o $@ dbfinfo.o lib/dbf.o
+
+a2dbf:	a2dbf.o mystrtok.o lib/dbf.o
+	$(CC) $(LDFLAGS) $(LIBS) -o $@ a2dbf.o mystrtok.o lib/dbf.o
+
+lib/libdbf.a:	lib/dbf.o
+	ar rcv lib/libdbf.a lib/dbf.o
+	ranlib lib/libdbf.a
+
+lib/libdbf.so.$(VERSION): lib/dbf.c
+	$(CC) $(CFLAGS) -fPIC -c lib/dbf.c -o lib/dbf.o
+	gcc $(CFLAGS) -shared -Wl,-soname=libdbf.so.0 -o $@ lib/dbf.o
+	-rm -f lib/dbf.o
+
+%.o:	%.c lib/dbf.h
+	$(CC) $(POSIX) $(CFLAGS) -c $< -o $@
+
+endian:	endian.o
+	$(CC) $(LDFLAGS) -o $@ endian.o
+
+endian.test: endian
+	@echo
+	@if ./endian | grep little > /dev/null ; then \
+		echo " this host is: little endian"; else echo " host: big endian"; fi
+	@if grep "^#define LSB" lib/dbfP.h > /dev/null ; then \
+		echo " dbf.c is configured for: little endian"; else echo " configured: big endian"; fi
+	@echo
+	@echo " the two system types above should be the same!"
+	@echo " if not edit lib/dbfP.h (LSB_HOST define)"
+	@echo
+
+lib/dbf.txt: lib/dbf.3
+	groff -mandoc lib/dbf.3 | col -b | misc/sel.pl > lib/dbf.txt
+
+perl: lib/libdbf.a perl/blib
+
+perl/blib:
+	cd perl && perl Makefile.PL && make test
+
+test:	dbfconv
+	./dbfconv fptest.dbf
+	./dbfconv -m fptest.dbf
+	./dbfconv -h fptest.dbf > test.html
+	./dbfconv -h -m fptest.dbf | misc/cleol.pl > test2.html
+
+test.write:	a2dbf
+	./a2dbf a2dbf.txt -o a2dbf.dbf
+
+html:
+	groff -mandoc lib/dbf.3 | misc/sel.pl | man2html > lib/dbfman.html
+
+install: hexdump dbfconv dbfinfo a2dbf
+	$(INSPRO) $(INSBIN) hexdump $(BINDIR)
+	$(INSPRO) $(INSBIN) dbfconv $(BINDIR)
+	$(INSPRO) $(INSBIN) dbfinfo $(BINDIR)
+	$(INSPRO) $(INSBIN) dbfdel  $(BINDIR)
+	$(INSPRO) $(INSBIN) a2dbf   $(BINDIR)
+
+install.x11: xhex/xhex
+	$(INSPRO) $(INSBIN) xhex/xhex $(XBINDIR)
+
+install.man:
+	$(INSPRO) lib/dbf.3 $(MAN3DIR)
+	$(INSPRO) hexdump.1 $(MAN1DIR)
+
+install.lib: lib/libdbf.a
+	install lib/libdbf.a $(LIBDIR)
+	install lib/dbf.h $(INCDIR)
+
+install.all: install install.x11 install.man install.lib
+	
+clean:
+	-rm *.o *.obj foo* *.bak
+	-rm xhex/*.o
+	-rm lib/*.o lib/*.obj
+	-cd perl && make clean
+	-rm perl/Makefile.old
+
+clean.all:	clean
+	-rm $(PROGS) lib/libdbf.a
+	-rm lib/libdbf.so.$(VERSION)
+	-rm .depend
+	-rm *.pdb *.tcp *.aps *.ent
+	-rm lib/*.bsc lib/*.sbr lib/*.vcw lib/*.map lib/*.wsp lib/*.lib
+	-rm test.txt out.dbf
+	-rm lex.yy.c
+	-rm test*.html
+	-rm a2dbf.fpt
+	-rm a2dbf.dbf
+	-rm endian
+
+distrib:
+	make clean.all
+	make all
+	make clean
+	-rm ../dbflib-$(VERSION).tar.gz
+	(cd .. && tar -czvf dbflib-$(VERSION).tar.gz dbflib-$(VERSION))
+
+todos:
+	(cd lib && todos dbf.c)
+	(cd lib && todos dbf.h)
+	(cd lib && todos dbfdll.c)
+	(cd lib && todos dbfdll.h)
+	todos dbfconv.c
+	todos dbfinfo.c
+
+fromdos:
+	(cd lib && fromdos dbfdll.c)
+	(cd lib && fromdos dbfdll.h)
+	(cd lib && fromdos dbf.c)
+	(cd lib && fromdos dbf.h)
+	fromdos dbfconv.c
+	fromdos dbfinfo.c
+

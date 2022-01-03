@@ -1,0 +1,9 @@
+Changes
+COPYING
+Dbf.pm
+Dbf.xs
+MANIFEST
+Makefile.PL
+README
+test.pl
+typemap

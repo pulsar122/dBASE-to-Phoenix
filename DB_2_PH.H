@@ -1,3 +1,3 @@
 /*--------------------------------------------------------------------------*/
 
-EXTERN VOID phoenix_neu(VOID);
+EXTERN VOID DbaseToPhoenix(VOID);

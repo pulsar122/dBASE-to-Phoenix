@@ -1,0 +1,143 @@
+### README for the /dbflib/ package ###################################
+### THIS IS still ALPHA CODE!!! #######################################
+### http://home.pages.de/~rasca/dbflib/README #########################
+
+COPYRIGHT
+---------
+hexdump, xhex, dbf* tools and a2dbf are published under the GNU
+General Public License (GPL), see the file COPYING for details.
+The dbflib and the perl module are published under the GNU Library
+General Public License (LGPL), see the file COPYING.lib for details.
+
+freq.c, freq.h, dirlist.c are from the 'libsx' package and have their
+own copyright. i've included them for people who have not the source
+archive of the libsx library.
+
+getopt.c, getopt.h are from the GNU libc, i needed them for compiling
+hexdump under DOS.
+
+HISTORIC
+--------
+On my old Linux box i had no flexible "hexdump", so i made my own one
+(and cause of this historic reason this program is still included :)).
+Next i want an X11-interface for my hexdump .. i wrote "xhex" based on
+the SXlib (simple X). Some weeks later i needed the posibility to view
+also in xBase files so the dbflib project was born :-)
+
+SYSTEMS
+-------
+The following programs are written for Linux, but there should be no
+problem to compile them on other systems. Binaries for Linux are in-
+cluded (but not for the perl module) ..
+
+
+PROGRAMS and the LIBRARY
+========================
+
+dbfconv, a2dbf and the other dbf* tools
+---------------------------------------
+Is just small programs to test my dbf routines.. you can use them
+as examples .. 'dbfconv' e.g. could convert xbase files to ASCII,
+LaTeX or HTML.
+
+ATTENTION! the default behavior of dbfconv and xhex is to process
+also deleted records! you can switch it off by command line argument.
+
+WARNING: the dos version dbfconv.exe hangs while using the "-m"
+switch :-( don't know why until now ..
+
+
+libdbf.a
+--------
+Some routines to access xbase files, not very well programed because
+i don't know about xbase and xbase files. Nevertheless reading should
+work quite well :) i hope .. see dbf.3 for descriptions.
+xbase III+ and IV should be supported .. (?) :-))
+
+There is also an experimental DLL support for Win3.x included..
+still not ready! I do not know enough about Win3.x and DLL :(
+
+perl/
+-----
+The "perl/" directory contains an experimental perl module which
+uses the dbflib C-library. This let's you access xBase files
+with perl5.003 or higher. See also the README in this directory.
+
+simple API
+----------
+libdbf.a is designed to have a simple API. to see this here is
+a small but ready to run xbase converter:
+
+#include <stdlib.h> /* free() */
+#include "dbf.h"    /* dbOpen(), dbStrNext(), dbClose() */
+
+int main (int argc, char **argv) {
+	int db;
+	UCHAR *s;
+
+	if (argc > 1) {
+		if ((db = dbOpen (argv[1], DB_READ)) > 0) {
+			while ((s = dbStrNext(db, ';')) != NULL) {
+				printf ("%s\n", s);
+				free (s);
+			}
+			dbClose (db);
+		}
+	}
+	return (0);
+}
+
+it's simple, isn't it? for a more complex converter see the
+"dbfconv" program ..
+
+hexdump
+-------
+This is my own version of hexdump, cause the included version
+of Linux was not enough for me ..
+
+xhex
+----
+Trying to play around with the Simple X Library i started to write
+a X11 version from my hexdump program. It's very slow when reading
+big files! xhex needs X11R5 or R6 and the Simple X Library. Linked
+with libdbf.a or dbf.o xhex could also browse xbase files.
+
+INSTALL
+-------
+edit lib/dbfP.h (LSB/MSB_HOST), edit the Makefile then say
+ make endian.test
+ make all
+ make install
+
+TODO
+----
+improvements for the libdbf, better documentions and bugfixes (?) ..
+man-page for 'dbfconv', more output formats for 'dbfconv' ..
+index-file support and complete memo-file support ..
+support for "number of decimal places" for NUMBER fields
+
+BUGS and PROBLEMS
+-----------------
+while converting a xbase file with \r or \n in a field it
+gives not the wanted output (1 record per line).
+workaround: use an other record seperator, e.g.
+	dbfconv -r "@@@" test.dbf | perl -pne 's/\n/,/g; s/@@@/\n/g' > test.txt
+or use the perl module ..
+
+WARNING
+-------
+The API is still not ready, so check your source if you change
+to a new version!
+
+this_will_core_dump
+-------------------
+This file will core dump the xhex program while switching between
+the differnt modes.. don't ask me why :)
+
+
+rasca gmelch, berlin 1994, 1995, 1996, 1997
+
+ (internet rasca@mozart.komm.hdk-berlin.de)
+ (fido-net rasca gmelch, 2:2410/305.4)
+ (linuxNet rasca@lupo.cib.linuxnet.org)
+

@@ -1,0 +1,58 @@
+.\" written by Rasca M. Gmelch (rasca@marie.physik.tu-berlin.de) 1995
+.\" published under the GNU GPL
+.\" Do not restrict redistribution.
+.TH HEXDUMP 1 "27 Sep 1995" "GNU" "Manual for Version 0.7a"
+.SH NAME
+hexdump \- write a hexdump to stdout
+.SH SYNOPSIS
+.B hexdump
+.RB [ \-h ]
+.RB [ \-o ]
+.RB [ \-x ]
+.RB [ \-d ]
+.RB [ \-b ]
+.RB [ \-q ]
+.RB [ \-w \ width]
+.RB [ files.. ]
+.br
+
+.SH DESCRIPTION
+.B hexdump
+reads from standard input or from given
+.B files
+and writes a hexdump to standard output.
+With different parameters you
+can switch to octal or other output formats (see below).
+.br
+.TP
+.B \-x
+force hex output (default).
+.TP
+.B \-d 
+force decimal output.
+.TP
+.B \-o
+force octal output.
+.TP
+.B \-b
+force binary output (01001100 ..).
+.TP
+.B \-q
+quiet, do not show the address number at the beginning of the
+line and the ascii values at the end.
+.TP
+.B \-w #
+formats the output to the width of #
+
+.SH BUGS
+.B hexdump
+10^12 * 3.1415 bugs or more :-)
+
+.SH AUTHOR
+Rasca Gmelch
+.br
+  InterNet: rasca@mozart.komm.hdk-berlin.de
+.br
+  WWW: http://home.pages.de/~rasca/
+.br
+  Fido-Net: Rasca Gmelch, 2:2410/305.4
