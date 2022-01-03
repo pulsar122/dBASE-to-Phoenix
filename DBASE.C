@@ -218,7 +218,7 @@ WORD dBase_move(DBStruct *d,LONG pos)
 		return FALSE;
 	d->fpos=pos;
 	if(keytab_id_import!=-1)
-		ImportString(keytab_id_import,d->recsize,d->buffer);
+		Akt_BlockX2Atari ( d->buffer, keytab_id_import, d->buffer, d->recsize );
 	return TRUE;
 }
 
@@ -241,7 +241,7 @@ WORD dBase_move_plus(DBStruct *d)
 		return FALSE;
 	}
 	if(keytab_id_import!=-1)
-		ImportString(keytab_id_import,d->recsize,d->buffer);
+		Akt_BlockX2Atari ( d->buffer, keytab_id_import, d->buffer, d->recsize );
 	return TRUE;
 }
 

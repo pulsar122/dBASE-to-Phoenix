@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys_gem2.h>
+
 #include "copyrigh.h"
 #include "dbase.h"
 #include "db_imp.h"

@@ -13,9 +13,10 @@
 #define MIMPORT 31  /* STRING in tree MENU */
 #define MERZEUGEN 33  /* STRING in tree MENU */
 #define MPHOENIXDBASE 34  /* STRING in tree MENU */
-#define MKEYTAB 36  /* STRING in tree MENU */
-#define MFWECHSEL 38  /* STRING in tree MENU */
-#define MFSCHLIESSEN 39  /* STRING in tree MENU */
+#define MPH_PAP 36  /* STRING in tree MENU */
+#define MKEYTAB 38  /* STRING in tree MENU */
+#define MFWECHSEL 40  /* STRING in tree MENU */
+#define MFSCHLIESSEN 41  /* STRING in tree MENU */
 
 #define DBASESTRUKMENU 1  /* menu */
 #define DPROGRAMMINFO 7  /* STRING in tree DBASESTRUKMENU */
@@ -191,6 +192,7 @@
 #define TEXT_028 44  /* STRING in tree TEXTE */
 #define TEXT_029 45  /* STRING in tree TEXTE */
 #define TEXT_030 46  /* STRING in tree TEXTE */
+#define TEXT_031 47  /* STRING in tree TEXTE */
 
 #define PHOENIX_BASE 13  /* form/dial */
 #define ERROR_00 1  /* STRING in tree PHOENIX_BASE */
@@ -242,3 +244,5 @@
 #define DBASE_NEUER_SATZ 14  /* Alert string */
 
 #define ALLE_SPALTEN 15  /* Alert string */
+
+#define WORNG_KEYTAB 16  /* Alert string */

@@ -2,6 +2,14 @@
 !node Historie
 
 #----------------------------------------------------------------------------*/
+!subnode Version 0.09 vom 26.04.2003
+
+!begin_itemize !short
+	!item Recht einfacher und unvollst„ndiger Export von Phoenix nach
+	      PapyrusBase.
+!end_itemize
+
+#----------------------------------------------------------------------------*/
 !subnode Version 0.08.02 vom 14.02.2001
 
 !begin_itemize !short

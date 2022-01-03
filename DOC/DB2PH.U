@@ -328,6 +328,17 @@ werden welche Felder nicht bertragen wurden.
 Der Datentype Text kann mit Hilfe von Keytab entsprechend beeinflut werden.
 
 ############################################################
+
+!subsubnode Phoenix -> Papyrus
+
+Um eine komplette Datenbank nach PapyrusBase zuwandeln ist dieser Menpunkt gedacht.
+Es wird dazu Keytab ab Release 8 ben”tigt!
+
+Der Export absolut nicht perfekt und komplett. Wer was vermisst m”ge sich beim mir melden.
+
+
+
+############################################################
 # Men Optionen
 ############################################################
 
@@ -367,9 +378,6 @@ Holt das n„chste ge”ffnete Fenster/Dialog nach vorne.
 
 
 !begin_appendix
-
-!newpage
-!include add\bezug.ui
 
 !newpage
 !include add\historie.ui

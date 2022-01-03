@@ -45,3 +45,8 @@
 24.01.2000	Ist ein Datumsfeld leer, dann wird nicht mehr '00000000'
 						sondern nur Leerzeichen ausgegeben. [Dietmar Belloff]
 						-> Version 0.08.02 an Dietmar geschickt.
+18.10.2002	Begonnen mit dem PapyrusBase Export
+30.12.2002	Weiter am PapyrusBase Export
+						TYPE_CHAR und TYPE_WORD werden als "STD" Åbergeben.
+31.12.2002	PapyrusBase Export funktioniert so weit, dank KeyTab.
+26.04.2003	TOS- und GEM-Lib von Martin ElssÑser eingebaut.

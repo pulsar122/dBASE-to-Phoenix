@@ -1,5 +1,6 @@
 							 					; db2ph.prj
-K:\C\dbase\db2ph.app
+i:\C\dbase\db2ph.app
+.C[-P -C -K]
 .C[-V]        					; Reines Programm
 
 ;.C[-V -Y]
@@ -17,18 +18,18 @@ keytab.c								; Funktionen rund um Keytab
 main.c									; Einsteig des Programms
 make.c									; Import
 ph_2_db.c								; Phoenix-Datenbank nach dBASE
+ph_2_pap.c							; Phoenix-Datenbank nach PapyrusBase
 ph_base.c;							; Routinen zu Phoenix/BASE
 ph_imp.c;								; Phoenix Datenbank verwalten
 rsc.c										; Resourcen bearbeiten
-windget.o								; Ersatz fÅr Fehlerhafte Wind_get
 
 ; Library
 sys_gem2.lib						; SysGem 2.02 Library
-pctoslib.lib						; TOS lib
+pctos.lib								; TOS lib, von Martin ElssÑser
 pcextlib.lib						; extended lib
-pcgemlib.lib						; AES and VDI lib
+pcgem.lib								; AES and VDI lib, von Martin ElssÑser
 pcfltlib.lib						; floatingpoint lib
 pcstdlib.lib   					; standard lib
 phoenix.lib							; Phoenix/Base
 dbase.lib
-naes.lib								; Neue AES-Funktionen
+keytab.lib

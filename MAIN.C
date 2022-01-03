@@ -13,6 +13,7 @@
 #include "key.h"
 #include "make.h"
 #include "ph_2_db.h"
+#include "ph_2_pap.h"
 #include "ph_base.h"
 #include "ph_imp.h"
 #include "db2ph.h"
@@ -79,7 +80,6 @@ WORD main(int argc, const char *argv[])
 VOID init_programm(VOID)
 {
 	Pdomain(1);
-	init_naes();
 	init_rsc();														/* Resource init										*/
 	init_SysGem();
 	ShowMessage(HoleText(TEXTE,TEXT_028,NULL));
@@ -193,6 +193,9 @@ WORD handle_menue(WORD *msg, WORD item)
   	break;
   	case MPHOENIXDBASE:									/* Phoenix nach dBase									*/
   		PhoenixToDbase();
+  	break;
+  	case MPH_PAP:												/* Phoenix nach PapyrusBase						*/
+  		PhoenixToPapyrus ();
   	break;
 		case MKEYTAB:												/* Filter einstellen									*/
 			import_keytab();

@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*/
-/* Erstell aus einer Phoenix-Datenbank entsprechende dBASE-Tabellen 				*/
+/* Erstell aus einer Phoenix-Datenbank entsprechende Papyrus-Tabellen 			*/
 
 #include <portab.h>
 #include <import.h>
@@ -14,7 +14,6 @@
 #include "db2ph.h"
 #include "key.h"
 #include "rsc.h"
-#include "dbflib-0.7\lib\dbf.h"
 
 /*--------------------------------------------------------------------------*/
 /* EXTERNE VARIABLE																													*/
@@ -28,6 +27,8 @@
 #define DATE_FORMAT					"DD-MM-YYYY"
 #define TIME_FORMAT					"HH:MI:SS.mmmmmm"
 #define TIMESTAMP_FORMAT		"DD MM YYYY HH:MI:SS.mmmmmm"
+
+#define TYPE_CHARNUMBER			2000
 
 
 /*--------------------------------------------------------------------------*/
@@ -44,29 +45,46 @@ typedef struct
 /*--------------------------------------------------------------------------*/
 /* FUNKTIONS																																*/
 
+LOCAL WORD papCreate ( BYTE *datei );
+LOCAL VOID papCreateDbtabdef ( BYTE *Name );
+LOCAL VOID papCloseDbtabdef ( VOID );
+LOCAL VOID papCreateFileddef ( BYTE *Name, WORD Typ );
+LOCAL VOID papOpenDbTab ( VOID );
+LOCAL VOID papCloseDbTab ( VOID );
+LOCAL VOID papOpenDbSatz ( VOID );
+LOCAL VOID papCloseDbSatz ( VOID );
+LOCAL VOID papWriteText ( BYTE* text );
+LOCAL VOID papClose ( VOID );
+
 /*--------------------------------------------------------------------------*/
 /* LOCALE VARIABLES																													*/
 
+LOCAL WORD Utf_8;
 
-VOID PhoenixToDbase(VOID)
+/*--------------------------------------------------------------------------*/
+
+VOID PhoenixToPapyrus(VOID)
 {
 	BYTE Name[30],datei[300],ZStr[300];
 	BYTE Path[300];
 	BYTE *Record, *memo, *s;
-	int db_handle;
 	WORD fehler_vor;
 	WORD Tabelle;
 	WORD i,k;
-	WORD len;
 	WORD Columns;
 	WORD spalten[MAX_FIELDS+1];
+	LONG len;
 	LONG l;
-	ULONG rnr;
 	FILE *fehler;
 	PhoenixStruct *da;
 	LPCURSOR cursor;
 	FORMAT fdate, ftime, ftimestamp;
 	
+	if ( keytab == NULL )
+		;
+
+	Utf_8 = Akt_getExpNrFromName ( "UTF-8" );
+
 	strcpy(Name,"*.*");
 	i=FileSelect(Name,ph_path,"*.DAT\0",HoleText(TEXTE,TEXT_022,NULL),datei);
 	if(!i)
@@ -106,7 +124,7 @@ VOID PhoenixToDbase(VOID)
 		}
 	}
 	strcpy(Name,"*.*");
-	i=FileSelect(Name,Path,"*.dbf\0",HoleText(TEXTE,TEXT_031,NULL),datei);
+	i=FileSelect(Name,Path,"*.ph\0",HoleText(TEXTE,TEXT_031,NULL),datei);
 	if(!i)
 	{
 		phoenix_close(da);
@@ -137,11 +155,13 @@ VOID PhoenixToDbase(VOID)
 			{
 				case TYPE_CHAR:
 				case TYPE_WORD:
+/*
 				case TYPE_LONG:
 				case TYPE_DATE:
 				case TYPE_TIME:
 				case TYPE_TIMESTAMP:
 				case TYPE_EXTERN:
+*/
 					spalten[Columns]=k;
 					Columns++;
 				break;
@@ -162,53 +182,51 @@ VOID PhoenixToDbase(VOID)
 		}
 		if(Columns)												/* Verwertbare Spalte vorhanden?			*/
 		{
-			strcpy(datei, Path);							/* Ausgew„hlten Pfad holen						*/
-			strcat(datei, da->Table[Tabelle].Name);	/* Tabellenname anh„ngen				*/
-			strcat(datei, ".dbf");
-			db_handle = dbCreate (datei, Columns, DB_DBASE4);
-			if(db_handle >= 0)							/* dBASE-datei konnte erzeugt werden	*/
+			strcpy(datei, Path);						/* Ausgew„hlten Pfad holen						*/
+			strcat(datei, da->Table[Tabelle].Name);	/* Tabellenname anh„ngen			*/
+			strcat(datei, ".pb");
+			
+			if( papCreate ( datei ) )				/* PapyrusBase konnte erzeugt werden	*/
 			{
+				papCreateDbtabdef ( da->Table[Tabelle].Name );
 				for(k = 0; k < Columns; k++)	/* Alle Felder anlegen								*/
 				{
 					ShowStatus(NULL, "dBASE Tabelle init", (LONG) k, Columns, 0);
 					switch(da->Table[Tabelle].Column[spalten[k]].Typ)
 					{
 						case TYPE_CHAR:
-							if( da->Table[Tabelle].Column[spalten[k]].Size > 254 )
-							{
-								dbInitField(db_handle, k + 1, da->Table[Tabelle].Column[spalten[k]].Name,
-							            FT_MEMO, 10, 0);
-							}
-							else
-							{
-								len = da->Table[Tabelle].Column[spalten[k]].Size;
-								dbInitField(db_handle, k + 1, da->Table[Tabelle].Column[spalten[k]].Name,
-							            FT_CHARS, len, 0);
-							}
+							papCreateFileddef ( da->Table[Tabelle].Column[spalten[k]].Name, TYPE_CHARNUMBER );
 						break;
 						case TYPE_WORD:
-							dbInitField(db_handle, k + 1, da->Table[Tabelle].Column[spalten[k]].Name,
-							            FT_NUMBER, 6, 0);
+							papCreateFileddef ( da->Table[Tabelle].Column[spalten[k]].Name, TYPE_CHARNUMBER );
 						break;
 						case TYPE_LONG:
+/*
 							dbInitField(db_handle, k + 1, da->Table[Tabelle].Column[spalten[k]].Name,
 							            FT_NUMBER, 11, 0);
+*/
 						break;
 						case TYPE_FLOAT:
 						break;
 						case TYPE_CFLOAT:
 						break;
 						case TYPE_DATE:
+/*
 							dbInitField(db_handle, k + 1, da->Table[Tabelle].Column[spalten[k]].Name,
 							            FT_DATE, 8, 0);
+*/
 						break;
 						case TYPE_TIME:
+/*
 							dbInitField(db_handle, k + 1, da->Table[Tabelle].Column[spalten[k]].Name,
 							            FT_CHARS, sizeof(TIME_FORMAT), 0);
+*/
 						break;
 						case TYPE_TIMESTAMP:
+/*
 							dbInitField(db_handle, k + 1, da->Table[Tabelle].Column[spalten[k]].Name,
 							            FT_CHARS, sizeof(TIMESTAMP_FORMAT), 0);
+*/
 						break;
 						case TYPE_VARBYTE:
 						break;
@@ -219,6 +237,7 @@ VOID PhoenixToDbase(VOID)
 						case TYPE_PICTURE:
 						break;
 						case TYPE_EXTERN:
+/*
 							if( da->Table[Tabelle].Column[spalten[k]].Size > 254 )
 							{
 								dbInitField(db_handle, k + 1, da->Table[Tabelle].Column[spalten[k]].Name,
@@ -230,6 +249,7 @@ VOID PhoenixToDbase(VOID)
 								dbInitField(db_handle, k + 1, da->Table[Tabelle].Column[spalten[k]].Name,
 							            FT_CHARS, len, 0);
 							}
+*/
 						break;
 						case TYPE_DBADDRESS:
 						break;
@@ -237,17 +257,20 @@ VOID PhoenixToDbase(VOID)
 						break;
 					}
 				}
+				papCloseDbtabdef ();
 				Record = malloc(da->Table[Tabelle].Size);
 				memo   = malloc(da->Table[Tabelle].Size);
 				if( Record != NULL)
 				{
+					papOpenDbTab ();
 					db_initcursor(da->Base, Tabelle + 20, 0, ASCENDING, cursor);
+					ShowStatus(NULL, "Datensatz konvertieren", 0, da->Table[Tabelle].recs, 0);
 					for(l = 0; l <da->Table[Tabelle].recs; l++)
 					{
 						if(db_read(da->Base, Tabelle + 20, Record, cursor, 0L, FALSE))
 						{
-							ShowStatus(NULL, "Datensatz konvertieren", l, da->Table[Tabelle].recs, 0);
-							rnr=dbAppendBlank(db_handle);
+							ShowStatus(NULL, NULL, l, da->Table[Tabelle].recs, 0);
+							papOpenDbSatz ();
 							for(k = 0; k <= Columns; k++)	/* Alle Felder konvertieren			*/
 							{
 								switch(da->Table[Tabelle].Column[spalten[k]].Typ)
@@ -258,15 +281,14 @@ VOID PhoenixToDbase(VOID)
 														Record + da->Table[Tabelle].Column[spalten[k]].Offset,
 														len);
 										memo[len+1] = '\0';
-										if( keytab_id_export != -1 )
-											Akt_BlockAtari2X ( memo, keytab_id_export, memo, strlen(memo) ); 
-										dbChangeField(db_handle, rnr, k + 1, memo);
+										papWriteText ( memo );
 									break;
 									case TYPE_WORD:
 									  bin2str(TYPE_WORD,Record + da->Table[Tabelle].Column[spalten[k]].Offset,
 									  				ZStr);
-										dbChangeField(db_handle, rnr, k + 1, ZStr);
+									  papWriteText ( ZStr );
 									break;
+/*
 									case TYPE_LONG:
 									  bin2str(TYPE_LONG,Record + da->Table[Tabelle].Column[spalten[k]].Offset,
 									  				ZStr);
@@ -301,19 +323,22 @@ VOID PhoenixToDbase(VOID)
 										memo[len+1] = '\0';
 										dbChangeField(db_handle, rnr, k + 1, memo);
 									break;
+*/
 								}
 							}
+							papCloseDbSatz ();
 						}
 						else
 							;
 						db_movecursor(da->Base, cursor, 1);
 					}
+					papCloseDbTab ();
 					free(memo);
 					free(Record);
 				}
 				else
 					Note(ALERT_NORM,1,KEIN_SPEICHER);
-				dbClose(db_handle);
+				papClose ();
 			}
 			else
 				Note(ALERT_NORM,1,DBASE_ERZEUGEN);
@@ -327,4 +352,145 @@ VOID PhoenixToDbase(VOID)
 	if( fehler_vor )										/* Wurde eine Fehlerdatei geschrieben	*/
 		Note(ALERT_NORM,1,ALLE_SPALTEN);
 
+}
+
+/*--------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------*/
+
+#define PAP_END1			"</PAPBASE>\n"
+
+LOCAL FILE *pap;
+
+
+WORD papCreate ( BYTE *datei )
+{
+	BYTE ZStr[100];
+	
+	pap = fopen(datei , "wb+");	
+	if ( pap == NULL )
+		return FALSE;
+	strcpy ( ZStr, "<?xml version=\"1.0\" standalone=\"yes\"?>\n" );
+	strcat ( ZStr, "<PAPBASE VERSION=\"8.21\">\n" );
+	strcat ( ZStr, "<DB_OPTIONS INDEX=\"1\" LANG=\"de\"/>\n" );
+	fwrite ( ZStr, 1, strlen ( ZStr ), pap);
+	return TRUE;
+}
+
+/*--------------------------------------------------------------------------*/
+
+VOID papCreateDbtabdef ( BYTE *Name )
+{
+	BYTE ZStr[100];
+	
+	strcpy ( ZStr, "<DBTABDEF ID=\"1\" NAME=\"" );
+	strcat ( ZStr, Name );
+	strcat ( ZStr, "\">\n" );
+	fwrite ( ZStr, 1, strlen ( ZStr ), pap);
+}
+
+/*--------------------------------------------------------------------------*/
+
+VOID papCloseDbtabdef ( VOID )
+{
+	BYTE ZStr[100];
+	
+	strcpy ( ZStr, "</DBTABDEF>\n" );
+	fwrite ( ZStr, 1, strlen ( ZStr ), pap);
+}
+
+
+/*--------------------------------------------------------------------------*/
+
+VOID papCreateFileddef ( BYTE *Name, WORD Typ )
+{
+	BYTE ZStr[200];
+	
+	strcpy ( ZStr, "<FIELDDEF NAME=\"" );
+	strcat ( ZStr, Name );
+	strcat ( ZStr, "\" TYPE=\"" );
+	switch ( Typ )
+	{
+		case TYPE_CHARNUMBER:
+			strcat ( ZStr, "STD" );
+		break;
+		case TYPE_CHAR:
+			strcat ( ZStr, "STRING" );
+		break;
+	}
+	strcat ( ZStr, "\"></FIELDDEF>\n" );
+	fwrite ( ZStr, 1, strlen ( ZStr ), pap);
+}
+
+/*--------------------------------------------------------------------------*/
+
+VOID papOpenDbTab ( VOID )
+{
+	BYTE ZStr[100];
+	
+	strcpy ( ZStr, "<DBTAB ID=\"1\">\n" );
+	fwrite ( ZStr, 1, strlen ( ZStr ), pap);
+}
+
+
+/*--------------------------------------------------------------------------*/
+
+VOID papCloseDbTab ( VOID )
+{
+	BYTE ZStr[100];
+	
+	strcpy ( ZStr, "</DBTAB>\n" );
+	fwrite ( ZStr, 1, strlen ( ZStr ), pap);
+}
+
+
+/*--------------------------------------------------------------------------*/
+
+VOID papOpenDbSatz ( VOID )
+{
+	BYTE ZStr[100];
+	
+	strcpy ( ZStr, "<R>" );
+	fwrite ( ZStr, 1, strlen ( ZStr ), pap);
+}
+
+
+/*--------------------------------------------------------------------------*/
+
+VOID papCloseDbSatz ( VOID )
+{
+	BYTE ZStr[100];
+	
+	strcpy ( ZStr, "</R>\n" );
+	fwrite ( ZStr, 1, strlen ( ZStr ), pap);
+}
+
+/*--------------------------------------------------------------------------*/
+
+VOID papWriteText ( BYTE* text )
+{
+	BYTE ZStr[10];
+	BYTE *s;
+	LONG len, dest_len;
+
+	len = strlen ( text );
+	
+	s = malloc ( len * 2 + 10 );
+	if ( len != NULL )
+	{
+		
+		Akt_BlockXUtf2XUtf ( s, &dest_len, Utf_8, text, len, 0 );
+			
+		fwrite ( s, 1, dest_len, pap);
+		free ( s );
+	}
+	strcpy ( ZStr, "\n" );
+	fwrite ( ZStr, 1, strlen ( ZStr ), pap);
+}
+
+/*--------------------------------------------------------------------------*/
+
+VOID papClose ( VOID )
+{
+	fwrite ( PAP_END1, 1, strlen ( PAP_END1 ), pap);
+	fclose ( pap );
 }

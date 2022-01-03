@@ -23,6 +23,8 @@ KEYT *keytab;																/* Variable fr Keytab-Cookie		*/
 /*--------------------------------------------------------------------------*/
 /* DEFINES																																	*/
 
+#define KEYTAB_C 		52
+
 /*--------------------------------------------------------------------------*/
 /* TYPES																																		*/
 
@@ -39,7 +41,8 @@ LOCAL WORD handle_keytab(WORD msg,WORD button,DIALOG_INFO *inf);
 
 VOID import_keytab(VOID)
 {
-	if(GetCookie(KEYTAB_COOKIE,(LONG *)&keytab) && keytab->size>=KEYTAB_C)
+	keytab = Akt_getKeyTab ();
+	if( keytab != NULL && keytab->size >= KEYTAB_C)
   		WindowDialog('KEYT',-1,-1,HoleText(TEXTE,TEXT_021,NULL),"",FALSE,FALSE,keytab_tree,NULL,0,NULL,handle_keytab);
   else
   {
@@ -53,7 +56,7 @@ VOID import_keytab(VOID)
 
 WORD handle_keytab(WORD msg,WORD button,DIALOG_INFO *inf)
 {
-	BYTE ZStr[200];
+	BYTE ZStr[500];
 	BYTE *s;
 	WORD Anzahl,i;
 	static WORD key_alt_import, key_alt_export;
@@ -67,25 +70,25 @@ WORD handle_keytab(WORD msg,WORD button,DIALOG_INFO *inf)
  			key_alt_import=keytab_id_import;		/* Name des Importfilter ermitteln*/
 			if(keytab_id_import==-1)
 				keytab_id_import=0;
-			Anzahl=GetImportCount();
+			Anzahl=Akt_getImpMaxNr();
 			for(i=0; i<=Anzahl; i++)
 			{
-				s=GetImportName(i);
+				s=Akt_getImpNameFromNr(i);
 				if(s!=NULL && i==keytab_id_import)
 				{
 					strcpy(ZStr,s);
 					break;
 				}
 			}
-			SetText(inf->tree,KEYTABLIST_IMPORT,ZStr);
+			SetText(inf->tree, KEYTABLIST_IMPORT, ZStr);
 
  			key_alt_export=keytab_id_export;		/* Name des Exportfilter ermitteln*/
 			if(keytab_id_export==-1)
 				keytab_id_export=0;
-			Anzahl=GetExportCount();
+			Anzahl=Akt_getExpMaxNr();
 			for(i=0; i<=Anzahl; i++)
 			{
-				s=GetExportName(i);
+				s=Akt_getExpNameFromNr(i);
 				if(s!=NULL && i==keytab_id_export)
 				{
 					strcpy(ZStr,s);
@@ -120,11 +123,11 @@ WORD handle_keytab(WORD msg,WORD button,DIALOG_INFO *inf)
   			break;
 
   			case KEYTABLIST_IMPORT:
-					Anzahl=GetImportCount();
+					Anzahl=Akt_getImpMaxNr();
 					ZStr[0]=EOS;
 					for(i=0; i<=Anzahl; i++)
 					{
-						s=GetImportName(i);
+						s=Akt_getImpNameFromNr(i);
 						strcat(ZStr,s);
 						strcat(ZStr,"|");
 					}
@@ -135,11 +138,11 @@ WORD handle_keytab(WORD msg,WORD button,DIALOG_INFO *inf)
 					return SG_CONT;
 
   			case KEYTABLIST_EXPORT:
-					Anzahl=GetExportCount();
+					Anzahl=Akt_getExpMaxNr();
 					ZStr[0]=EOS;
 					for(i=0; i<=Anzahl; i++)
 					{
-						s=GetExportName(i);
+						s=Akt_getExpNameFromNr(i);
 						strcat(ZStr,s);
 						strcat(ZStr,"|");
 					}
@@ -175,7 +178,8 @@ VOID init_keytab(VOID)
 		keytab_id_export=4;
 		SetConfig("Keytab Export",&keytab_id_export,2);
 	}
-	if(!GetCookie(KEYTAB_COOKIE,(LONG *)&keytab))
+	keytab = Akt_getKeyTab ();
+	if( keytab == NULL )
 	{
 		keytab_id_import=-1;									/* Keytab ist nicht vorhanden			*/
 		keytab_id_export=-1;									/* Keytab ist nicht vorhanden			*/
