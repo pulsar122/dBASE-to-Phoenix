@@ -15,6 +15,8 @@
 /*--------------------------------------------------------------------------*/
 /* EXTPORTIERTE VARIABLE																										*/
 
+OBJECT **tree_addr;
+
 OBJECT *menu_tree;
 OBJECT *dbase_menu_tree;
 OBJECT *phoenix_menu_tree;
@@ -46,7 +48,12 @@ VOID init_rsc(VOID)
 {
 	BYTE ZStr[30];
 	UWORD Version;
+	RSHDR		*rsh;
 	
+	rsh = *((RSHDR **)(&_GemParBlk.global[7]));					/* Adresse des Resource-Headers ber global[7/8] holen */
+
+	tree_addr = (OBJECT **)(((UBYTE *)rsh) + rsh->rsh_trindex);	/* Zeiger auf die Objektbaumtabelle holen */
+
 	menu_tree=RscAdr(R_TREE,MENU);
 
 	dbase_menu_tree=RscAdr(R_TREE,DBASESTRUKMENU);

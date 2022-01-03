@@ -244,9 +244,12 @@ VOID phoenix_neu(VOID)
 	if(!phoenix_open(da,ZStr,ph_name,ph_passwort))
 		return;
 	dBase_move(dbase_zeiger,1);							/* An die erste Position					*/
-	ShowRotor();
+	ShowBee();
+	ShowStatus("Datens„tze einfgen...",NULL,0,dbase_zeiger->recs);
 	for(i=0; i<dbase_zeiger->recs; i++)			/* Alle Datens„tze								*/
 	{
+		if(i%5==0)
+			ShowStatus(NULL,NULL,i,dbase_zeiger->recs);
 		if(!dBase_deletet(dbase_zeiger))
 		{
 			memset(Record,0,RecSize);						/* Datenpuffer l”schen						*/
@@ -254,7 +257,7 @@ VOID phoenix_neu(VOID)
 				dBase_read_typ(dbase_zeiger,spalten[k].Name,Record+spalten[k].Adr);
 			if(!db_insert(da->Base,new_table_nr,Record,&status))
 			{
-				EndRotor();
+				ShowArrow();
 				status_phoenix(da->Base);
 				phoenix_close(da);
 				free(Record);
@@ -263,9 +266,8 @@ VOID phoenix_neu(VOID)
 			}
 		}
 		dBase_move_plus(dbase_zeiger);				/* N„chster Datensatz							*/
-		UpdateRotor();
 	}
-	EndRotor();
+	ShowArrow();
 	phoenix_close(da);
 	free(Record);
 	free(da);

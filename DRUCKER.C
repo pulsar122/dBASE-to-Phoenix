@@ -28,32 +28,32 @@ WORD wdialog;
 /*--------------------------------------------------------------------------*/
 /* TYPES																																		*/
 
-typedef struct							/* Dialogbeschreibung fr create_sub_dialogs() 	*/
+typedef struct							/* Dialogbeschreibung fr create_sub_dialogs()	*/
 {
-	PDLG_INIT	init_dlg;
-	PDLG_HNDL	do_dlg;
-	PDLG_RESET reset_dlg;
-	WORD icon_index;
-/*	OBJECT *tree_index;*/
-} SIMPLE_SUB;
+	PDLG_INIT		init_dlg;
+	PDLG_HNDL		do_dlg;
+	PDLG_RESET	reset_dlg;
+	WORD				icon_index;
+	WORD				tree_index;
+}SIMPLE_SUB;
 
 /*--------------------------------------------------------------------------*/
 /* FUNKTIONS																																*/
 
+LOCAL VOID free_sub_dialogs(PDLG_SUB *sub_dialogs);
 LOCAL LONG cdecl pinit_special(PRN_SETTINGS *settings, PDLG_SUB *sub_dialog);
 LOCAL LONG cdecl psub_special(PRN_SETTINGS *settings,PDLG_SUB *sub_dialog,WORD exit_obj);
-LOCAL LONG cdecl preset_special( PRN_SETTINGS *settings, PDLG_SUB *sub_dialog);
+LOCAL LONG cdecl preset_special(PRN_SETTINGS *settings,PDLG_SUB *sub_dialog);
 
 /*--------------------------------------------------------------------------*/
 /* LOCALE VARIABLES																													*/
 
-LOCAL PRN_DIALOG *gprn_dialog;
-LOCAL PRN_SETTINGS *gprn_settings;
+LOCAL PRN_DIALOG *prn_dialog;
+LOCAL PRN_SETTINGS *prn_settings;
 
-SIMPLE_SUB	my_subs_for_pdlg[2] =		/* Feld mit Dialogbeschreib. fr create_sub_dialogs() */
+SIMPLE_SUB	my_subs[1] =	/* Feld mit Dialogbeschreib. fr create_sub_dialogs() */
 {
-	  pinit_special, psub_special, preset_special, WD_01, /*wdialog_tree ,*/
-	  pinit_special, psub_special, preset_special, WD_01/*, wdialog_tree*/
+	{ pinit_special, psub_special, preset_special, WD_01,PRN_SUB }
 };
 
 /*--------------------------------------------------------------------------*/ 
@@ -69,6 +69,8 @@ LONG cdecl pinit_special(PRN_SETTINGS *settings, PDLG_SUB *sub_dialog)
 
 	tree = sub_dialog->tree;									/* Zeiger auf den Objektbaum 		*/
 	offset = sub_dialog->index_offset;				/* Offset fr die Objektindizes */
+	
+	strcpy(tree[PS_RANDLEN + offset].ob_spec.tedinfo->te_ptext,"4");
 
 	return 1;
 }
@@ -80,30 +82,28 @@ LONG cdecl pinit_special(PRN_SETTINGS *settings, PDLG_SUB *sub_dialog)
 /* sub_dialog:				Zeiger auf die Unterdialog-Struktur										*/
 /* exit_obj:					Objektnummer																					*/
 
-LONG cdecl psub_special(PRN_SETTINGS *settings,PDLG_SUB *sub_dialog,WORD exit_obj )
+LONG cdecl psub_special(PRN_SETTINGS *settings,PDLG_SUB *sub_dialog,WORD exit_obj)
 {
 	WORD offset;
+	WORD id,pt,ret;
 	OBJECT *tree;
-
+	
 	tree = sub_dialog->tree;									/* Zeiger auf den Objektbaum 		*/
 	offset = sub_dialog->index_offset;				/* Offset fr die Objektindizes */
 
-	switch ( exit_obj - sub_dialog->index_offset )
+	switch ( exit_obj - offset )
 	{
-/*	
-		case	MYSP_PUSH_ME1:												/* Beispielbutton */
-		{
-			/* der einzige "aktive" Button in diesem Unterdialog */
-			/* invertiert den Status eines Icons */
-		
-			tree[PUSH_ME_ICON1 + offset].ob_state ^= SELECTED;	/* Selektion eines Icons „ndern */
-			redraw_obj( sub_dialog, PUSH_ME_ICON1 + offset );
-			
-			obj_DESELECTED( tree, exit_obj );						/* Button wieder normal */
-			redraw_obj( sub_dialog, exit_obj );
-			break;
-		}
+		case	PS_GFSEL:													/* Frontauswahl aufrufen 				*/
+			ret=FontSelect(BUT_OK | BUT_ABORT,&id,&pt,"Zeichensatzauswahl","dBASE to Phoenix",FALSE,(TPROC)NULL);
+			if(ret)
+			{
+			}
+/*
+			DispatchEvents();
+			DispatchEvents();
+			DispatchEvents();
 */
+		break;
 	}
 	return 1;
 }
@@ -134,43 +134,41 @@ LONG cdecl preset_special(PRN_SETTINGS *settings, PDLG_SUB *sub_dialog)
 /*	create:																																	*/
 /*	no_subs:					Anzahl der Unterdialoge																*/
 
-PDLG_SUB	*create_sub_dialogs(OBJECT **tree_addr,SIMPLE_SUB *create, 
-					WORD no_subs)
+PDLG_SUB *create_sub_dialogs(OBJECT **tree_addr,SIMPLE_SUB *create,WORD no_subs)
 {
+	WORD i;
 	PDLG_SUB *sub_dialogs;
-	WORD	i;
+	PDLG_SUB	*sub;
 
 	sub_dialogs = 0L;
 	for(i=0; i<no_subs; i++)
 	{
-		PDLG_SUB	*sub;
-
-		sub=malloc(sizeof(PDLG_SUB ));
+		sub = malloc( sizeof( PDLG_SUB ));
 		if(sub)
 		{
-			sub->next = 0L;													/* Zeiger auf den Nachfolger 	*/
-
+			sub->next = 0L;												/* Zeiger auf den Nachfolger 		*/
 			sub->option_flags = 0;
-			sub->sub_id = -1;												/* Kennung des Unterdialogs (wird von pdlg_add_sub_dialogs() gesetzt) */
-			sub->sub_icon = icon_tree[create->icon_index];
-			sub->sub_tree = create->tree_index;			/* Zeiger auf den Objektbaum des Unterdialogs */
+			sub->sub_id = -1;											/* Kennung des Unterdialogs (wird von pdlg_add_sub_dialogs() gesetzt) */
+			sub->sub_icon = tree_addr[PRN_ICON] + create->icon_index;
+			sub->sub_tree = tree_addr[create->tree_index];		/* Zeiger auf den Objektbaum des Unterdialogs */
 
 			sub->dialog = 0L;												/* Zeiger auf die Struktur des Fensterdialogs oder 0L */
-			sub->tree = 0L;													/* Zeiger auf den zusammengesetzen Objektbaum */
-			sub->index_offset = 0;									/* Indexverschiebung des Unterdialogs */
+			sub->tree = 0L;												/* Zeiger auf den zusammengesetzen Objektbaum */
+			sub->index_offset = 0;										/* Indexverschiebung des Unterdialogs */
 			sub->reserved1 = 0;
 			sub->reserved2 = 0;
 
-			sub->init_dlg = create->init_dlg;				/* Initialisierungsfunktion 	*/
-			sub->do_dlg = create->do_dlg;						/* Behandlungsfunktion 				*/
-			sub->reset_dlg = create->reset_dlg;			/* Zurcksetzfunktion 				*/
+			sub->init_dlg = create->init_dlg;						/* Initialisierungsfunktion */
+			sub->do_dlg = create->do_dlg;								/* Behandlungsfunktion */
+			sub->reset_dlg = create->reset_dlg;						/* Zurcksetzfunktion */
 			sub->reserved3 = 0;
 			
 			sub->next = sub_dialogs;
 			sub_dialogs = sub;
 		}
-		create++;																	/* Zeiger auf die n„chste Beschreibung */
+		create++;															/* Zeiger auf die n„chste Beschreibung */
 	}
+
 	return sub_dialogs;	
 }
 
@@ -254,20 +252,44 @@ WORD save_psettings(PRN_SETTINGS *settings)
 
 WORD do_print_dialog(BYTE *document_name,WORD kind)
 {
-	WORD	button;
+	WORD button;
+	PDLG_SUB *sub_dialogs;
 
-	gprn_dialog=pdlg_create(PDLG_3D);	 /* Speicher anfordern, Treiber scannen */
-	if(gprn_dialog)
+	sub_dialogs=0L;
+	prn_dialog=pdlg_create(PDLG_3D);	 /* Speicher anfordern, Treiber scannen */
+	if(prn_dialog)
 	{
-		sub_dialogs = create_sub_dialogs( tree_addr, my_subs_for_pdlg, 1 );
+		sub_dialogs = create_sub_dialogs(tree_addr,my_subs,1);
 		if(sub_dialogs)
-			pdlg_add_sub_dialogs(gprn_dialog, sub_dialogs );	/* Unterdialoge hinzufgen */
-		button=pdlg_do(gprn_dialog,gprn_settings,document_name,PRINT_FLAGS + kind);
-		pdlg_delete(gprn_dialog);							/* Speicher freigeben 						*/
-		gprn_dialog=0L;
+			pdlg_add_sub_dialogs(prn_dialog, sub_dialogs );	/* Unterdialoge hinzufgen */
+		button=pdlg_do(prn_dialog,prn_settings,document_name,PRINT_FLAGS + kind);
+		if(sub_dialogs)
+		{
+			pdlg_remove_sub_dialogs(prn_dialog);	/* Unterdialoge entfernen 			*/
+			free_sub_dialogs(sub_dialogs);			/* Speicher fr Liste freigeben 	*/
+		}
+		pdlg_delete(prn_dialog);							/* Speicher freigeben 						*/
+		prn_dialog=0L;
 		return button;
 	}
 	return 0;
+}
+
+/*--------------------------------------------------------------------------*/ 
+/* Verkettete Liste fr die Unterdialoge freigeben													*/
+/* Funktionsresultat:	-																											*/
+/*	sub_dialogs:			Liste der Unterdialoge																*/
+
+VOID free_sub_dialogs(PDLG_SUB *sub_dialogs)
+{
+	while(sub_dialogs)
+	{	
+		PDLG_SUB	*next;
+
+		next=sub_dialogs->next;
+		free(sub_dialogs);
+		sub_dialogs=next;
+	}
 }
 
 /*--------------------------------------------------------------------------*/
@@ -287,7 +309,5 @@ VOID init_drucker(VOID)
 		}	
 	}
 	if(wdialog)
-	{
-		gprn_settings=read_psettings(0L);			/* Druckereinstellung einlesen		*/
-	}
+		prn_settings=read_psettings(0L);			/* Druckereinstellung einlesen		*/
 }

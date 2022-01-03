@@ -2,6 +2,15 @@
 !node Historie
 
 #----------------------------------------------------------------------------*/
+!subnode Version 0.05 vom 05.02.2000
+
+!begin_itemize !short
+	!item Kein Absturz mehr, wenn Keytab nicht installiert ist. [Bernd M„dicke]
+	!item Bei Ausgabe der Phoenix-Struktur wird die Gr”že von Textfelder wie in
+				Phoenix ausgegeben.
+!end_itemize
+
+#----------------------------------------------------------------------------*/
 !subnode Version 0.04 vom 22.05.1999
 
 !begin_itemize !short

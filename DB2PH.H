@@ -19,6 +19,7 @@
 #define DBASESTRUKMENU   1   /* Menuebaum */
 #define DPROGRAMMINFO    7   /* STRING in Baum DBASESTRUKMENU */
 #define DEXPORTSTRUKT    9   /* STRING in Baum DBASESTRUKMENU */
+#define DDRUCKENSTRUKT   10  /* STRING in Baum DBASESTRUKMENU */
 
 #define PHOENIXSTRUKMENU 2   /* Menuebaum */
 #define PPROGRAMMINFO    7   /* STRING in Baum PHOENIXSTRUKMENU */

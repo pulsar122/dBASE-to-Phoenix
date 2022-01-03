@@ -100,6 +100,7 @@ WORD handle_dbase(WORD msg,WORD button,DIALOG_INFO *inf)
 	{
     case SG_START:
     	init_dbase_struktur(inf->tree);
+    	DisableObj(dbase_menu_tree,DDRUCKENSTRUKT,0);
 		break;
     case SG_UNDO:																/* Undo-Taste bet„tigt			*/
 			return SG_CLOSE;
@@ -125,11 +126,9 @@ WORD handle_dbase(WORD msg,WORD button,DIALOG_INFO *inf)
 				case DEXPORTSTRUKT:
 					db_textbeschreibung_export();
 				break;
-/*
 				case DDRUCKENSTRUKT:
 					db_textbeschreibung_drucken();
 				break;
-*/	
 			}
 		break;
 		case SG_POSX:
@@ -337,6 +336,8 @@ VOID db_textbeschreibung_export(VOID)
 	fclose(fp);
 }
 
+EXTERN VOID joerg(VOID);
+
 /*--------------------------------------------------------------------------*/
 /* Druckt die dBASE-Struktur																								*/
 
@@ -345,68 +346,72 @@ VOID db_textbeschreibung_drucken(VOID)
 	BYTE Name[30],datei[300],ZStr[300];
 	WORD i;
 
-	do_print_dialog("dBASE Strukture",PDLG_PRINT);
-	
 /*
-	strcpy(ZStr,"Typ                  : ");
-	switch((WORD)dbase_zeiger->typ)
+	if(do_print_dialog("dBASE Strukture",PDLG_PRINT)==PDLG_OK)
 	{
-		case DBASEII:
-			strcat(ZStr,"dBASE II");
-		break;
-		case DBASEIII:
-			strcat(ZStr,"dBASE III");
-		break;
-		case DBASEIV:
-			strcat(ZStr,"dBASE IV");
-		break;
-		case DBASEV:
-			strcat(ZStr,"dBASE V");
-		break;
-		case DBASEIII_MEMO:
-			strcat(ZStr,"dBASE III mit Memfeld");
-		break;
-		case DBASEIV_MEMO:
-			strcat(ZStr,"dBASE IV mit Memfeld");
-		break;
-		case DBASEIV_SQL:
-			strcat(ZStr,"dBASE IV mit SQL-Tabelle");
-		break;
-		case FOXPRO_MEMO:
-			strcat(ZStr,"FoxPro mit Memofeld");
-		break;
-		default:
-			strcat(ZStr,"unbekannte Version");
-		break;
-	}
-	strcat(ZStr,"\r\n");
-	fwrite(ZStr,1,strlen(ZStr),fp);
-	sprintf(ZStr,"letzte Žnderung      : %02d.%02d.%04d\r\n",(WORD)dbase_zeiger->Tag,(WORD)dbase_zeiger->Monat,(WORD)dbase_zeiger->Jahr);
-	fwrite(ZStr,1,strlen(ZStr),fp);
-	sprintf(ZStr,"Datensatzgr”že       : %d\r\n",dbase_zeiger->recsize);
-	fwrite(ZStr,1,strlen(ZStr),fp);
-	sprintf(ZStr,"Anzahl der Datens„tze: %li\r\n\r\n",dbase_zeiger->recs);
-	fwrite(ZStr,1,strlen(ZStr),fp);
-	strcpy(ZStr,"  Feldname      Feldtyp     L„nge   Dez\r\n");
-	fwrite(ZStr,1,strlen(ZStr),fp);
-	strcpy(ZStr,"---------------------------------------\r\n");
-	fwrite(ZStr,1,strlen(ZStr),fp);
-	for(i=0; i<dbase_zeiger->fields; i++)
-	{
-		sprintf(ZStr,"  %-14.14s",dbase_zeiger->field[i].Name);
-		hole_typ(dbase_zeiger->field[i].Typ,datei);
-		sprintf(&ZStr[strlen(ZStr)],"%-12.12s",datei);
-		sprintf(datei,"%5i  ",(WORD)dbase_zeiger->field[i].Size);
-		strcat(ZStr,datei);
-		if(dbase_zeiger->field[i].Nk>0)
-			sprintf(datei,"%3i",(WORD)dbase_zeiger->field[i].Nk);
-		else
-			datei[0]='\0';
-		strcat(ZStr,datei);
+	/*	
+		strcpy(ZStr,"Typ                  : ");
+		switch((WORD)dbase_zeiger->typ)
+		{
+			case DBASEII:
+				strcat(ZStr,"dBASE II");
+			break;
+			case DBASEIII:
+				strcat(ZStr,"dBASE III");
+			break;
+			case DBASEIV:
+				strcat(ZStr,"dBASE IV");
+			break;
+			case DBASEV:
+				strcat(ZStr,"dBASE V");
+			break;
+			case DBASEIII_MEMO:
+				strcat(ZStr,"dBASE III mit Memfeld");
+			break;
+			case DBASEIV_MEMO:
+				strcat(ZStr,"dBASE IV mit Memfeld");
+			break;
+			case DBASEIV_SQL:
+				strcat(ZStr,"dBASE IV mit SQL-Tabelle");
+			break;
+			case FOXPRO_MEMO:
+				strcat(ZStr,"FoxPro mit Memofeld");
+			break;
+			default:
+				strcat(ZStr,"unbekannte Version");
+			break;
+		}
 		strcat(ZStr,"\r\n");
 		fwrite(ZStr,1,strlen(ZStr),fp);
+		sprintf(ZStr,"letzte Žnderung      : %02d.%02d.%04d\r\n",(WORD)dbase_zeiger->Tag,(WORD)dbase_zeiger->Monat,(WORD)dbase_zeiger->Jahr);
+		fwrite(ZStr,1,strlen(ZStr),fp);
+		sprintf(ZStr,"Datensatzgr”že       : %d\r\n",dbase_zeiger->recsize);
+		fwrite(ZStr,1,strlen(ZStr),fp);
+		sprintf(ZStr,"Anzahl der Datens„tze: %li\r\n\r\n",dbase_zeiger->recs);
+		fwrite(ZStr,1,strlen(ZStr),fp);
+		strcpy(ZStr,"  Feldname      Feldtyp     L„nge   Dez\r\n");
+		fwrite(ZStr,1,strlen(ZStr),fp);
+		strcpy(ZStr,"---------------------------------------\r\n");
+		fwrite(ZStr,1,strlen(ZStr),fp);
+		for(i=0; i<dbase_zeiger->fields; i++)
+		{
+			sprintf(ZStr,"  %-14.14s",dbase_zeiger->field[i].Name);
+			hole_typ(dbase_zeiger->field[i].Typ,datei);
+			sprintf(&ZStr[strlen(ZStr)],"%-12.12s",datei);
+			sprintf(datei,"%5i  ",(WORD)dbase_zeiger->field[i].Size);
+			strcat(ZStr,datei);
+			if(dbase_zeiger->field[i].Nk>0)
+				sprintf(datei,"%3i",(WORD)dbase_zeiger->field[i].Nk);
+			else
+				datei[0]='\0';
+			strcat(ZStr,datei);
+			strcat(ZStr,"\r\n");
+			fwrite(ZStr,1,strlen(ZStr),fp);
+		}
+		fclose(fp);
+	*/
 	}
-	fclose(fp);
+
 */
 }
 
@@ -494,9 +499,11 @@ WORD handle_dbase_daten(WORD msg,WINDOW_INFO *inf)
     	switch(inf->key)
       {
       	case 0x800C:													/* Clr/Home											*/
+      		ScrollWindow(inf->handle,SCROLL_HOME);
           return(SG_KEYUSED);
       	case 0x810C:													/* Shift + Clr/Home							*/
       	case 0x820C:													/* Shift + Clr/Home							*/
+      		ScrollWindow(inf->handle,SCROLL_SHIFT_HOME);
           return(SG_KEYUSED);
       	case 0x8001:													/* Cursor hoch									*/
       		ScrollWindow(inf->handle,SCROLL_UP);

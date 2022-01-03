@@ -1,5 +1,7 @@
 /*--------------------------------------------------------------------------*/
 
+EXTERN OBJECT	**tree_addr;
+
 EXTERN OBJECT *menu_tree;
 EXTERN OBJECT *dbase_menu_tree;
 EXTERN OBJECT *phoenix_menu_tree;

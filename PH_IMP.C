@@ -77,6 +77,7 @@ VOID open_phoenix(VOID)
 			close_phoenix();
 	}
 }
+
 /*--------------------------------------------------------------------------*/
 /* Auswertung der Meldungen fr den Dialog Login														*/
 
@@ -279,7 +280,10 @@ VOID init_phoenix_table(OBJECT *tree,WORD table)
 		else
 			strcat(H,"unbekannt");
 		strcat(H,"\t");
-		sprintf(ZStr,"%7li",phoenix_zeiger->Table[table].Column[i].Size);
+		if(phoenix_zeiger->Table[table].Column[i].Typ==TYPE_CHAR) /* Sonderbehandlung bei Zeichenkette */
+			sprintf(ZStr,"%7li",phoenix_zeiger->Table[table].Column[i].Size-1);
+		else
+			sprintf(ZStr,"%7li",phoenix_zeiger->Table[table].Column[i].Size);
 		strcat(H,ZStr);
 		H +=PHOENIX_MAX;
 	}
@@ -325,8 +329,8 @@ VOID textbeschreibung(VOID)
 		{
 			sprintf(ZStr,"  %-30.30s%-18.18s",&phoenix_zeiger->Table[i].Column[j].Name[0],
 			                                &Datentypen[phoenix_zeiger->Table[i].Column[j].Typ][0]);
-			if(phoenix_zeiger->Table[i].Column[j].Typ==0)
-				sprintf(&ZStr[strlen(ZStr)],"(%li)",phoenix_zeiger->Table[i].Column[j].Size);
+			if(phoenix_zeiger->Table[i].Column[j].Typ==TYPE_CHAR)
+				sprintf(&ZStr[strlen(ZStr)],"(%li)",phoenix_zeiger->Table[i].Column[j].Size-1);
 			strcat(ZStr,"\r\n");
 			fwrite(ZStr,1,strlen(ZStr),fp);
 		}

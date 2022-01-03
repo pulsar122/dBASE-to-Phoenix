@@ -6,7 +6,7 @@ typedef struct
 {
 	BYTE Name[MAX_FIELDNAME+1];							/* Spalte- bzw. Feldname					*/
 	WORD Typ;																/* Art der Spalte									*/
-	LONG Size;															/* G”že in Bytes									*/
+	LONG Size;															/* Gr”že in Bytes									*/
 	LONG Offset;														/* Adresse im Record							*/
 }PhoenixField;
 

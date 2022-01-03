@@ -43,7 +43,7 @@ VOID import_keytab(VOID)
   		WindowDialog('KEYT',-1,-1,"Importfilter","",FALSE,FALSE,keytab_tree,NULL,0,NULL,handle_keytab);
   else
   {
-  	Alert(ALERT_NORM,1,"[3][Keytab ist nicht oder in der|falschen Version vorhanden][[OK]");
+  	Alert(ALERT_NORM,1,"[3][Keytab ist nicht oder in der|falschen Version vorhanden][ [OK ]");
   	keytab_id_import=-1;
   }
 }
@@ -127,7 +127,6 @@ VOID init_keytab(VOID)
 		keytab_id_import=4;
 		SetConfig("Keytab Import",&keytab_id_import,2);
 	}
-	if(!GetCookie(KEYTAB_COOKIE,(LONG *)&keytab) && keytab->size<KEYTAB_C)
+	if(!GetCookie(KEYTAB_COOKIE,(LONG *)&keytab))
 		keytab_id_import=-1;									/* Keytab ist nicht vorhanden			*/
 }
-

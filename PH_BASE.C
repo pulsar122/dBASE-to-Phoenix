@@ -142,7 +142,7 @@ WORD status_phoenix(LPBASE *base)
 		return 1;
 	strcpy(ZStr,"[3][Phoenix/BASE Error|");
 	switch(error)
-	{	
+	{
 		case DB_NOMEMORY:
 			strcat(ZStr,"Zuwenig Speicher, um Operatiom auszufÅhren.");
 		break;
@@ -262,6 +262,9 @@ WORD status_phoenix(LPBASE *base)
 		break;
 		case DB_CDELETEDUPDATE:
 			strcat(ZStr,"Datensatz inzwischen von anderem Benutzer gelîscht");
+		break;
+		default:
+			strcat(ZStr,"Unbekannter Fehler");
 		break;
 	}
 	strcat(ZStr," ][[Abbruch]");

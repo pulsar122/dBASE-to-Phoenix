@@ -1,9 +1,9 @@
 							 					; db2ph.prj
 K:\C\dbase\db2ph.app
-;.C[-V]        					; Reines Programm
-.C[-V -Y]
-.S[-Y]
-.L[-G -L -Y]
+.C[-V]        					; Reines Programm
+;.C[-V -Y]
+;.S[-Y]
+;.L[-G -L -Y]
 =              					; list of modules follows...
 
 pcstartb.o							; Startup Code (Behne)

@@ -1,4 +1,4 @@
-#define VERSION "0.04"
+#define VERSION "0.05"
 
 /*----------------------
 
@@ -47,5 +47,22 @@ Version 0.04
 						dB2Ph speichert den Importfilter in seiner Konfig ab.
 21.05.1999	Im Dialog Phoenixstrukture MenÅzeile fÅr die Textausgabe
 						erzeugt.
+22.05.1999	Durch eine Erweiterung von SysGem kann nun auch mit Clr/Home und
+            Shift Clr/Home gescrollt werden.
+
+Version 0.05
+
+06.06.1999	Durch neu compalieren kann jetzt das Fenster der dBASE-
+						Daten auch mit Clr/Home bewegt werden.
+						Beim erzeugen einer neuen Phoenixtabelle wird ShowStatus
+						angezeigt.
+
+Version 0.05
+
+05.02.2000	War Keytab nicht installiert stÅrzte db2Ph ab (2 Bomben).
+						[Bernd MÑdicke]
+						Bei der Ausgabe der Phoenixdatenfelder wird beim Typ 'Text'
+						berÅcksichtig, daû der Designer immer ein Byte mehr
+						resverviert. Somit wird bei der Anzeige eins abgezogen.
 
 ----------------*/
