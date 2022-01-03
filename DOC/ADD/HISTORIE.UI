@@ -4,7 +4,7 @@
 #----------------------------------------------------------------------------*/
 !subnode Version 0.09 vom 26.04.2003
 
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Recht einfacher und unvollstÑndiger Export von Phoenix nach
 	      PapyrusBase.
 !end_itemize
@@ -12,21 +12,21 @@
 #----------------------------------------------------------------------------*/
 !subnode Version 0.08.02 vom 14.02.2001
 
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Konvertiern von Phoenix -> dBASE
 !end_itemize
 
 #----------------------------------------------------------------------------*/
 !subnode Version 0.07 vom 07.02.2000
 
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Alle Texte liegen jetzt in der Resource-Datei.
 !end_itemize
 
 #----------------------------------------------------------------------------*/
 !subnode Version 0.06 vom 07.02.2000
 
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Statusfenster beim Phoeniximport wurde nicht geschlossen.
 	      [Bernd MÑdicke]
 	!item Interne énderungen der Dateifunktionen beim Zugriff auf dBASE-Dateien.
@@ -35,7 +35,7 @@
 #----------------------------------------------------------------------------*/
 !subnode Version 0.05 vom 05.02.2000
 
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Kein Absturz mehr, wenn Keytab nicht installiert ist. [Bernd MÑdicke]
 	!item Bei Ausgabe der Phoenix-Struktur wird die Grîûe von Textfelder wie in
 				Phoenix ausgegeben.
@@ -44,7 +44,7 @@
 #----------------------------------------------------------------------------*/
 !subnode Version 0.04 vom 22.05.1999
 
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Kommt nun auch mit DatensÑtzen die gîûer 256 Bytes sind zurecht.
 	!item Ausgabe der dBASE Tabellestruktur in eine Datei.
 				[Hilmar Bîhm]
@@ -59,18 +59,18 @@
 !subnode Version 0.03 vom 12.03.1999
 
 04.03.1999 (!nl)
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Anleitung fertig.
 !end_itemize
 
 25.02.1999 (!nl)
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Erste Anleitung mit UDO geschrieben.
 	!item	Beim betÑtigen der HELP-Taste wird ST-Guide aufgefrufen.
 !end_itemize
 
 20.02.1999 (!nl)
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Auswertung der dBASE Version verbessert. Erkennt nun auch	dBASE V fÅr
 				Windows.
 !end_itemize
@@ -80,23 +80,23 @@
 !subnode Version 0.02
 
 05.02.1999
-!begin_itemize !short
+!begin_itemize !compressed
 	!item énderungsdatum wird vierstellig ausgegeben. [Dietmar Belloff]
 !end_itemize
 
 28.01.1999	(!nl)
-!begin_itemize !short
+!begin_itemize !compressed
 	!item dBASE-Datei wurde fÑlschlicherweise im Textmodus geîffnet.
 				Dadurch konnten Zeichen verloren gehen. [Dietmar Belloff]
 	!item	Datum wurde nicht korrekt konvertiert. [Dietmar Belloff]
 !end_itemize
 25.01.1999
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Buttons integriert um alle Datenfelder auszuwÑhlen.
 !end_itemize
 
 20.01.1999
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Fehler in SysGem bei FileSelect behoben. Es wurde unter TOS
 				versucht die MagiC-Dateiauswahl aufzurufen.
 	!item Der Feldtyp logisch wird als String mit der LÑnge von 1
@@ -104,7 +104,7 @@
 
 !end_itemize
 15.01.1999
-!begin_itemize !short
+!begin_itemize !compressed
 	!item KEYTAB eingebaut.
 !end_itemize
 
@@ -112,6 +112,6 @@
 !subnode Version 0.01
 
 14.01.1999
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Erste Version
 !end_itemize

@@ -1,5 +1,5 @@
 ##############################################################
-# Die Anleitung zu dBASE to Pheonix
+# Die Anleitung zu dBASE to Phoenix
 # Copyright (c) 1999 by
 # Satya-Soft
 ##############################################################
@@ -24,7 +24,7 @@ dBASE to Phoenix ist wie der Name schon sagt ein Programm zu importieren
 von dBASE-Datenbanken in eine Phoenix-Datenbank.
 
 Als mîgliche Quellen steht folgende Datenbankformate zur VerfÅgung:
-!begin_itemize !short
+!begin_itemize !compressed
   !item dBASE II (ungetestet)
   !item dBASE III
   !item dBASE IV
@@ -301,7 +301,7 @@ Nachdem eine Datenbank ausgewÑhlt ist kommt noch die Frage nach dem Pfad wohin d
 Tabellen geschrieben werden.
 
 Folgende Dinge sind dabei zubeachten: (!nl)
-!begin_itemize !short
+!begin_itemize !compressed
 	!item Es wird grundsÑtzlich eine dBASE IV Tabelle angelegt.
 	!item Folgende Datentypen werden unterstÅzt: (!nl)
 				Text, Zahl, Langzahl, Datum, Zeit, Datum+Zeit und externe Datei.
