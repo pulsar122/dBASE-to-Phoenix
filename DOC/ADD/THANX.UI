@@ -1,0 +1,24 @@
+############################################################
+# Danksagungen
+############################################################
+!node Danksagungen
+
+Ich m”chte mich an dieser Stelle bei folgenden Personen sehr 
+herzlich bedanken
+
+!begin_description
+!item	[Dietmar Belloff] dessen urspnglicher Gedanke war einen solchen
+			Konverter zuschreiben und jetzt als Tester herhalten darf. ;-)
+
+!label Dirk Hagedorn
+!item [Dirk Hagedorn] fr sein Programm UDO. Mit dem diese Anleitung
+      er!-stellt wurde.
+      
+!label Andreas Pietsch
+!item	[Andreas Pietsch] fr seine GEM-Library ""SysGem"", mit der
+      man sich nur auf das eigentliche Programmen konzentrierne kann
+      und nicht noch um die Handhanung von GEM. (!nl)
+      Mittlerweile auch dafr das er die Quellen zu SysGem
+      ver”ffentlich hat.
+
+!end_description

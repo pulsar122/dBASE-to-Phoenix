@@ -1,0 +1,344 @@
+##############################################################
+# Die Anleitung zu dBASE to Pheonix
+# Copyright (c) 1999 by
+# Satya-Soft
+##############################################################
+
+############################################################
+# Spezielle Sachen
+############################################################
+!include add\header.ui
+
+!begin_document
+
+
+!maketitle
+!tableofcontents
+
+############################################################
+# Was kann es
+############################################################
+!node Was kann es
+
+dBASE to Phoenix ist wie der Name schon sagt ein Programm zu importieren
+von dBASE-Datenbanken in eine Phoenix-Datenbank.
+
+Als mîgliche Quellen steht folgende Datenbankformate zur VerfÅgung:
+!begin_itemize !short
+  !item dBASE II (ungetestet)
+  !item dBASE III
+  !item dBASE IV
+  !item dBASE V
+  !item FoxPro 2.X (ungetestet)
+!end_itemize
+
+Folgende Datenfelder werden unterstÅtzt:
+!begin_table [|l|l|] !hline
+  Zeichen !! Feldtyp 
+  !hline
+  C !! ASCII-Zeichen
+  !hline
+  N !! Nummerisch
+  !hline
+  F !! Flieûkomma
+  !hline
+  L !! Logisch
+  !hline
+  D !! Datum
+  !hline
+!end_table
+
+############################################################
+# Systemvorraussetzungen
+############################################################
+
+!node Systemvorraussetzungen
+
+dBASE to Phoenix benîtigt fÅr seine Arbeit einen Atari ST, STE oder TT mit
+min!-destens 1 MByte RAM. Es lÑuft ab einer Auflîsung von
+640 * 400 Bild!-punkten.
+
+FÅr zÅgiges Arbeiten mit dBASE to Phoenix ist das Vorhandensein einer
+Festplatte sinnvoll, aber nicht notwendig.
+
+Benîtigte Dateien
+
+!begin_verbatim
+         db2ph.app      Das eigentliche Programm
+         db2ph.rsc      Resourcefile
+!end_verbatim
+
+############################################################
+# Installation und Neubeginn
+############################################################
+!node Installation
+
+dBASE to Phoenix kann einfach in irgend ein Verzeichnis gelegt werden und
+schon kann es los gehen.
+
+
+#----------------------------------------------------------------------------*/
+#----------------------------------------------------------------------------*/
+!node Besonderheiten bei der Bedienung
+
+#----------------------------------------------------------------------------*/
+!subnode Editfelder
+Innerhalb von Editfeldern haben folgende Tasten eine besondere
+Bedeutung:
+
+!begin_blist
+!item [Control-X] (!nl)
+    Schneidet den Text, der sich im Editfeld befindet aus
+             und speichert ihn im Clipboard. Existiert ein Clip-
+             board nicht, dann wird der Text in einem internen
+             Buffer gespeichert. Anschlieûend wird das Editfeld
+             gelîscht.
+
+!item [Control-C]  (!nl)
+    Kopiert den Text, der sich im Editfeld befindet aus und
+             speichert ihn im Clipboard. Existiert ein Clipboard
+             nicht, dann wird der Text in einem internen Buffer ge-
+             speichert. Der Text im Editfeld bleibt erhalten.
+
+!item [Control-V]  (!nl)
+   FÅgt den Inhalt des Clipboards in das Editfeld ein. Der
+             ur!-sprÅng!-liche Inhalt geht dabei verloren.
+
+!item [Control-D]   (!nl)
+  Lîscht den Inhalt des Clipboards.
+
+!item [HOME]  (!nl)
+        Setzt den Cursor in das erste Editfeld des Dialogs.
+
+!item [Shift-Home]  (!nl)
+  Setzt den Cursor in das letzte Editfeld des Dialogs.
+
+!item [Shift-Left]  (!nl)
+  Setzt den Cursor an den Anfang der Zeile
+
+!item [Shift-Right]  (!nl)
+ Setzt den Cursor an das Ende der Zeile
+!end_blist
+
+############################################################
+# Die MenÅzeile
+############################################################
+!node Die MenÅzeile
+
+
+############################################################
+# dB2Ph
+############################################################
+!subnode dB2Ph
+
+############################################################
+# Programminfo
+############################################################
+!subsubnode Programminfo...
+!begin_center
+!image k:\c\dbase\doc\img\copyrigh.img
+!end_center
+Dies Dialogbox erscheint, nach dem betÑtigen des MenÅpunktes.
+
+(!B)Wichtig! (!b) (!nl)
+Man beachte die Versionsnummer und das Datum.
+Es zeigt an, wann diese dBASE to Phoenix Version erstellt wurde.
+Bei Fehlermeldungen an mich sollten Sie immer die Versionsnummer
+und das Datum welches sich in Ihrer Version befindet angeben.
+
+############################################################
+# Datei
+############################################################
+!subnode Datei
+
+############################################################
+# Phoenix îffnen...
+############################################################
+!subsubnode Phoenix îffnen...
+
+Dieser MenÅpunkt îffnet eine Phoenix-Datenbank. Dazu erscheint die
+Dateiauswahl. Nachdem auswÑhlen der Datenbank erscheint Ñhnlich wie bei
+Phoenix folgende Box:
+!begin_center
+!image k:\c\dbase\doc\img\passwort.img
+!end_center
+
+Nach der Eingabe des korrekten Benutzer und Passwort wird die Datenbank
+ge!-îffnet. Anderfalls erscheint eine Fehlermeldung.
+
+
+############################################################
+# Phoenix schliessen
+############################################################
+!subsubnode Phoenix schliessen
+
+Schlieût eine geîffnete Datenbank. Erst dann kann eine neue geladen werden.
+
+
+############################################################
+# dBASE îffnen...
+############################################################
+!subsubnode dBASE îffnen...
+
+ôffnet eine dBASE-Datenbank.
+
+############################################################
+# dBASE schliessen
+############################################################
+!subsubnode dBASE schliessen
+
+Schlieût eine geîffnete dBASE-Datenbank. Erst dann kann eine neue
+geladen werden.
+
+
+############################################################
+# Ende
+############################################################
+!subsubnode Ende
+
+Beendet das Programm
+
+############################################################
+# Bearbeiten
+############################################################
+!subnode Bearbeiten
+
+############################################################
+# Phoenix Struktur
+############################################################
+!subsubnode Phoenix Struktur
+
+Ist eine Phoenix-Datenbank geîffnet so kann man sich die einzelnen Tabellen
+und Datenfelderdefinitionen mit Hilfe dieses Dialog anschauen.
+
+Mit dem MenÅpunkt "Export" kann eine Datei erstellt werden welche die
+Struktur der Phoenix-Datenbank enthÑlt.
+
+!begin_center
+!image k:\c\dbase\doc\img\phoe_str.img
+!end_center
+
+############################################################
+# dBASE Struktur
+############################################################
+!subsubnode dBASE Struktur
+
+Ist eine dBASE-Datenbank geîffnet so kann man sich die Tabelle
+und Datenfelderdefinitionen mit Hilfe dieses Dialog anschauen.
+
+Mit dem MenÅpunkt "Export" kann eine Datei erstellt werden welche die
+Struktur der dBASE-Datenbank enthÑlt.
+
+!begin_center
+!image k:\c\dbase\doc\img\dbas_str.img
+!end_center
+
+############################################################
+# dBASE anzeigen
+############################################################
+!subsubnode dBASE anzeigen
+
+Zeigt die DatensÑtze der dBASE-Datenbank an. Das Fenster ist sehr primitiv
+gehalten. Auûer blÑttern kann man sonst nichts tun.
+
+Achtung! (!nl)
+Zum anzeigen werden alle DatensÑtze komplett in den Speicher geladen. Dies
+kann natÅrlich zu Problemen fÅhren, wenn der Speicher nicht ausreicht. Zudem
+ist die Funktion nicht gerade schnell.
+
+############################################################
+# Import
+############################################################
+!subsubnode Import
+
+Mit diesem MenÅpunkt îffnet sich folgender Dialog:
+!begin_center
+!image k:\c\dbase\doc\img\import.img
+!end_center
+Mit ihm besteht die Mîgichkeit irgend einem Datenfeld in der Phoenix-Datenbank
+ein Datenfeld der dBASE-Datenbank zuzuweisen. Dabei ist es unerheblich ob die 
+Phoenix-Datenfelder alle aus einer Tabelle kommen oder aus verschiedenen. (!nl)
+
+Der Dialog teil sich in drei Teile. Links die Phoenix-Datenbank, in der Mitte
+die Datenfelder die mit einander verbunden sind und recht die dBASE-Datenbank. Unter
+den Listen ist eine Zeile mit Typ und LÑnge vorhanden. WÑhlt man in eine, der drei
+Listen einen Eintrag an so wird dort der Typ und die LÑnge eingetragen. Im Bild sieht
+man, daû das Datenfeld "Telefon" von Typ "Text" ist und die LÑnge "21" besitzt.
+
+Die Bedienung sollte einiger Maûen logisch sein. Zumal die einzelnen Knîpfe
+auch nur bei bestimmten Vorbedingungen anwÑhlbar sind.
+
+Um zum Beispiel ein Datenfeld aus der dBASE-Datenbank in die Mitte zu bekommen
+muû man es anklicken. Dann kann es mit dem Button '<' verschobenn werden.
+
+(!B)Wichtig (!b) (!nl)
+Sie kînnen jeden Feldtyp mit einander verbinden. Das Programm macht keine kontrolle
+auf Sinn oder Unsinn einer Verbindung.
+
+############################################################
+# dBASE -> Phoenix
+############################################################
+!subsubnode dBASE -> Phoenix
+
+Nachdem auswÑhlen eines Dateinamens wird eine neue Phoenix-Datenbank erzeugt
+oder in einer vorhandenen eine neu Tabelle erzeugt.
+Diese neue Datenbank/Tabelle enthÑlt keine Masken
+mit denen man in Phoenix die Daten verÑndern kann. Man muû also erst in den Designer
+wechseln und dort entsprechende Masken anlegen. (!nl)
+
+Dabei werden ganze Zahlen (also Zahlen ohne Nachkomma) als Long und alle anderen als
+Flieûkomma importiert.
+
+############################################################
+# MenÅ Optionen
+############################################################
+
+!subnode Optionen
+
+############################################################
+# Keytab
+############################################################
+!subsubnode Keytab
+
+Im dem erscheinenden Dialog kann man einen Importfilter auswÑhlen,
+damit eine korrekte Zeichenkonvertierung statt findet. Dazu wird das
+Programm KEYTAB von Thomas Much benîtigt.
+
+############################################################
+# Fenster schliessen
+############################################################
+!subsubnode Fenster schliessen
+
+Schlieût das aktive Fenster oder den Dialog.
+
+############################################################
+# Fenster wechseln
+############################################################
+!subsubnode Fenster wechseln
+
+Holt das nÑchste geîffnete Fenster/Dialog nach vorne.
+
+#----------------------------------------------------------------------------*/
+# Anhang
+
+
+!begin_appendix
+
+!newpage
+!include add\bezug.ui
+
+!newpage
+!include add\historie.ui
+
+!newpage
+!include add\thanx.ui
+
+!newpage
+!include add\recht.ui
+
+!end_appendix
+
+############################################################
+# Feierabend
+############################################################
+!end_document

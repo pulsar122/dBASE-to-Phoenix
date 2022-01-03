@@ -1,0 +1,85 @@
+############################################################
+# Rechtliche Informationen
+############################################################
+!node Rechtliche Informationen
+
+#-----------------------------------------------------------
+# Copyright
+#-----------------------------------------------------------
+!subnode Copyright
+
+Das Copyright an dBASE to Phoenix und dieser Dokumentation liegen bei Satya-Soft,
+ Worms.
+
+!label Weitergabe
+dBASE to Phoenix ist Freeware und darf auf be!-lie!-bi!-ge 
+nichtkommerzielle Weise an Dritte weitergegeben werden, wenn alle folgenden 
+Vor!-aussetzungen er!-fllt werden:
+
+!begin_itemize
+!item Dem Archiv drfen keine weiteren Dateien hinzugefgt werden, insbesondere 
+  keine Mailboxwerbung und keine Werbung fr PD-Serien.
+
+!item Das Programm darf generell nur kostenlos weitergegeben werden. Der Upload in 
+  gebhrenfreie Mailboxen ist ausdrcklich erwnscht und erlaubt.
+
+!item Fr die Weitergabe auf Disketten im Rahmen einer Public-Domain-Serie drfen 
+  keine Gebhren verlangt werden, die einen Betrag von 10 DM (exklusive 
+  Versandkosten) berschreiten.
+
+!item Die Weitergabe per CD-ROM bedarf meiner schriftlichen Genehmigung.
+
+!item Eine kommerzielle Nutzung ist nur mit meiner schriftlichen Genehmigung
+  gestattet.
+
+!label Lieferumfang
+!item Das Programm darf nur mit allen zugeh”rigen Dateien und in 
+  un!-ver!-„n!-der!-ter Form weitergegeben werden.
+
+!end_itemize
+
+
+In diesem Programmpaket steckt inzwischen sehr viel Arbeit.
+Es w„re also nur fair, mir eine kleine
+Anerkennung fr meine Arbeit zukommen zu lassen. Auch kleine Spenden motivieren
+mich, auch in Zukunft noch an diesem Projekt zu arbeiten, es zu erweitern und zu
+verbessern.
+
+Fr Lob, Kritik, Vorschl„ge und Spenden bin ich folgendermaen erreichbar:
+
+!begin_verbatim
+                Gerhard Stoll
+                Jahnstr. 8
+                67547 Worms am Rhein
+                E-Mail: Gerhard Stoll @ LU (Mausnet)
+                Bankverbindung:
+                KTO: 131784
+                BLZ: 553 900 00
+                Wormser Volksbank von 1860 eG
+!end_verbatim
+
+#-----------------------------------------------------------
+# Haftungsausschlu
+#-----------------------------------------------------------
+!subnode Haftungsausschlu
+
+Trotz sorgf„ltiger Entwicklung und umfangreichen Tests kann keine 
+Gew„hrleistung fr die Richtigkeit des Inhalts dieser Dokumentation und die 
+einwandfreie Funktion von ""dBASE to Phoenix"" bernommen werden.
+
+Satya-Soft kann keine Haftung fr irgendwelche direkten oder 
+in!-dir!-ekten Sch„den --- einschlielich aber nicht beschr„nkt auf ma!-te!-ri!-1elle oder
+finanzielle --- bernehmen, die durch die Benutzung von ""dBASE to Phoenix"" oder dessen 
+Untauglichkeit fr einen bestimmten Zweck ent!-ste!-hen.
+
+
+#-----------------------------------------------------------
+# Warenzeichen
+#-----------------------------------------------------------
+!subnode Warenzeichen
+
+Innerhalb dieser Dokumentation wird auf Warenzeichen Bezug genommen, die nicht 
+explizit als solche ausgewiesen sind. Aus dem Fehlen einer Kennzeichnung kann 
+nicht geschlossen werden, da ein Name frei von den Rechten Dritter ist.
+
+

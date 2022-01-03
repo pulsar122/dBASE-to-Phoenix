@@ -1,0 +1,32 @@
+							 					; db2ph.prj
+K:\C\dbase\db2ph.app
+;.C[-V]        					; Reines Programm
+.C[-V -Y]
+.S[-Y]
+.L[-G -L -Y]
+=              					; list of modules follows...
+
+pcstartb.o							; Startup Code (Behne)
+copyrigh.c							; Darstellen des Copyrightdialog
+dbase.c									; Berabeiten von dBASE Dateien
+db_imp.c								; dBASE Datenbank verwalten
+;drucker.c								; Grundfunktionen fÅr WDialog
+file.c									; Verschiedene Dateifunktionen
+keytab.c								; Funktionen rund um Keytab
+main.c									; Einsteig des Programms
+make.c									; Import
+new.c										; Tabelle/Datenbank neu erzeugen
+ph_base.c;							; Routinen zu Phoenix/BASE
+ph_imp.c;								; Phoenix Datenbank verwalten
+rsc.c										; Resourcen bearbeiten
+windget.o								; Ersatz fÅr Fehlerhafte Wind_get
+
+; Library
+sys_gem2.lib						; SysGem 2.02 Library
+pctoslib.lib						; TOS lib
+pcextlib.lib						; extended lib
+pcgemlib.lib						; AES and VDI lib
+pcfltlib.lib						; floatingpoint lib
+pcstdlib.lib   					; standard lib
+phoenix.lib							; Phoenix/Base
+naes.lib								; Neue AES-Funktionen
