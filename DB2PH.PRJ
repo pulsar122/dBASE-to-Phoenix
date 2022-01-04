@@ -1,6 +1,6 @@
 							 					; db2ph.prj
-i:\C\dbase\db2ph.app
-.C[-P -C -K]
+i:\c\src\DB2PH\db2ph.app
+.C[-P -C -D__COMPATIBLE_FKT__]
 .C[-V]        					; Reines Programm
 
 ;.C[-V -Y]

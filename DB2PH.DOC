@@ -50,3 +50,8 @@
 						TYPE_CHAR und TYPE_WORD werden als "STD" Åbergeben.
 31.12.2002	PapyrusBase Export funktioniert so weit, dank KeyTab.
 26.04.2003	TOS- und GEM-Lib von Martin ElssÑser eingebaut.
+03.01.2022  Quellecode auf Github geschoben.
+            Code und Dokumentation aufgerÑumt.
+04.01.2022  Alle Libs und Inlcude Dateien in Verzechnis gezogen.
+            Anpassung an neue SysGEM2 Version.
+

@@ -80,7 +80,7 @@
 /******************************************************************************/
 
 /* Funktionen rund um den CookieJar - Functions around the CookieJar   */
-short Ash_getcookie( long cookie, void *value );
+int16 Ash_getcookie( int32 cookie, void *value );
 KEYT *Akt_getKeyTab( void );
 short Akt_getRelease( void );
 

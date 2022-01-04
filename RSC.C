@@ -68,7 +68,7 @@ VOID init_rsc(VOID)
 	NewDialog(copy_tree);
   SetText(copy_tree,CVERSION,VERSION);	/* Versionsnummer eintragen					*/
   SetText(copy_tree,CDATUM,__DATE__);		/* Versionsdatum eintragen					*/
-  SetText(copy_tree,CSYSGEM,SysGemVerStr());	/* SysGem Version eintragen		*/
+  SetText(copy_tree,CSYSGEM,SysGemVerStr(0));	/* SysGem Version eintragen		*/
 	Version=db_lib_version();
 	sprintf(ZStr,"Phoenix/BASE: %X.%X",Version>>8,Version & 0xff);
   SetText(copy_tree,CPHOENIX,ZStr);			/* Phoenix/BASE eintragen						*/
